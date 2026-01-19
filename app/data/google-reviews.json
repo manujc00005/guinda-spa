@@ -1,0 +1,166 @@
+{
+  "business": "Guinda Wellness & Spa",
+  "source": "google",
+  "reviews": [
+    {
+      "id": "google-001",
+      "author": "Alba Crespo Cabello",
+      "date": "Hace un mes",
+      "rating": 5,
+      "text": "Único sitio que puedes ir acompañado en un spa privado durante 1h, el trato de las trabajadoras muy amables y simpáticas y aparte tienen otros servicios como masajes etc. Sin duda volveré a repetir",
+      "truncated": false
+    },
+    {
+      "id": "google-002",
+      "author": "Álvaro Robles",
+      "date": "Hace 3 semanas",
+      "rating": 5,
+      "text": "Gran experiencia. Muy buen trato desde el inicio, las instalaciones estaban genial y todo muy limpio. Escogimos la opción con masaje y fue muy muy bueno, además de relajante. Recomendable 100%.",
+      "truncated": false
+    },
+    {
+      "id": "google-003",
+      "author": "Florencia Tedesco",
+      "date": "Hace un mes",
+      "rating": 5,
+      "text": "Recomendable 100%, personal atento y amable. Están pendientes y a la vez te dejan tu espacio para relajarte. Allí te ofrecen al llegar ofertas exclusivas de tratamientos aparte, nosotros probamos la presoterapia, lo hacen en una habitación aparte y la recomiendo completamente, ya que resuelven todas tus dudas con mucha amabilidad.",
+      "truncated": false
+    },
+    {
+      "id": "google-004",
+      "author": "Alexandra Garcia",
+      "date": "Hace un mes",
+      "rating": 5,
+      "text": "Lo probamos hace una semana, y totalmente recomendable. Trato y servicio impecable, las trabajadoras muy profesionales. El spa se reserva por completo y puedes disfrutarlo sin más personas. Los …Más",
+      "truncated": true
+    },
+    {
+      "id": "google-005",
+      "author": "Evelin Garces",
+      "date": "Hace 2 meses",
+      "rating": 5,
+      "text": "Hoy tengo que poner 5 estrellas a un sitio espectacular, recalco la amabilidad desde el primer contacto esa manera de explicar las cosas las recalco mucho por que eso hoy en día no lo hay. …Más",
+      "truncated": true
+    },
+    {
+      "id": "google-006",
+      "author": "Marina Gallego Pérez",
+      "date": "Hace una semana",
+      "rating": 5,
+      "text": "Una experiencia unica en la cual el trato hacia el cliente es de 10. Personal magnifico, instalaciones muy limpias y con todo detalle, las masajistas muy profesionales. Recomiendo 100%",
+      "truncated": false
+    },
+    {
+      "id": "google-007",
+      "author": "A N",
+      "date": "Hace una semana",
+      "rating": 5,
+      "text": "Escogimos la experiencia de 60min de circuito + 30min de masaje para pareja. Muy contento, instalaciones perfectas, el ambiente te genera mucha tranquilidad, tienes privacidad y el personal super amable.",
+      "truncated": false
+    },
+    {
+      "id": "google-008",
+      "author": "Jenifer Márquez Alcaide",
+      "date": "Hace 3 meses",
+      "rating": 5,
+      "text": "La experiencia Increíble!!! Es diferente a cualquier spa que hayas probado. Tienes la privacidad de la piscina, saunas, y ducha de contraste. Es precioso. Y ya si decimos las masajistas encantadoras; nos atendieron Ángela y Meli, nos …Más",
+      "truncated": true
+    },
+    {
+      "id": "google-009",
+      "author": "Sandra",
+      "date": "Hace 9 meses",
+      "rating": 4,
+      "text": "Me tocó un sorteo a través de Instagram. Tuve problemas de salud y no pude gastarlo hasta el último momento. Hubo un malentendido a la hora de hacer la reserva y se solucionó sin problemas. …Más",
+      "truncated": true
+    },
+    {
+      "id": "google-010",
+      "author": "Lore Ruiz",
+      "date": "Hace 9 meses",
+      "rating": 5,
+      "text": "Experiencia increíble. Las chicas súper atentas y amables. El sitio espectacular, muy recomendado para relajarte con tu pareja sin ruido y sin molestias de nadie. Todo cuidado al detalle y limpio.",
+      "truncated": false
+    },
+    {
+      "id": "google-011",
+      "author": "Tania Villalba Flores",
+      "date": "Hace un mes",
+      "rating": 5,
+      "text": "Personal muy amable. El spa es privado, está muy bien. La sauna era lo único que no funcionaba, pero hay baños de vapor y chorros. Cogimos también el masaje y muy relajante",
+      "truncated": false
+    },
+    {
+      "id": "google-012",
+      "author": "Bernardo Calaustro",
+      "date": "Hace 4 meses",
+      "rating": 5,
+      "text": "El mejor spa que hemos visitado mi esposa y yo. Instalaciones impecables y personal muy profesional. Hemos salido muy contentos. Sitio ideal para desconectar de la rutina diaria! Seguro que volveremos",
+      "truncated": false
+    },
+    {
+      "id": "google-013",
+      "author": "Marina Romero Parra",
+      "date": "Hace 4 meses",
+      "rating": 5,
+      "text": "Tuve una experiencia excelente en Spa Guinda. Es un lugar privado, muy limpio y cuidado en cada detalle, lo que transmite mucha confianza y comodidad. El trato con Meli y Eli fue realmente agradable, siempre atentas y profesionales, lo que …Más",
+      "truncated": true
+    },
+    {
+      "id": "google-014",
+      "author": "Daniel CR",
+      "date": "Hace 5 meses",
+      "rating": 5,
+      "text": "El spa en general está bien, las instalaciones cuidadas y el circuito resulta agradable. El baño turco, sin embargo, tenía un olor algo a humedad que le restaba confort. Lo que menos me gustó fue que, a pesar de que la oferta que me …Más",
+      "truncated": true
+    },
+    {
+      "id": "google-015",
+      "author": "Pablo Sánchez",
+      "date": "Hace 9 meses",
+      "rating": 5,
+      "text": "Increíble experiencia en este maravilloso spa situado en el hotel TRH Mijas. El personal muy amable y atento. Cogimos la experiencia en pareja de una hora de spa privado con media hora de masaje e infusión para terminar. El masaje ha sido …Más",
+      "truncated": true
+    },
+    {
+      "id": "google-016",
+      "author": "raymond diez",
+      "date": "Hace 4 semanas",
+      "rating": 5,
+      "text": "Muy buena experiencia. Spa limpio, los empleados han sido muy amables y profesionales. Repetiremos seguro! 😁🙏",
+      "truncated": false
+    },
+    {
+      "id": "google-017",
+      "author": "Maria Gallardo Perez",
+      "date": "Hace 2 meses (fecha de edición)",
+      "rating": 5,
+      "text": "EXCELENTE!!!! RECOMIENDO 100% VENIR AL SPA GUINDA. SERVICIO 10 …Más",
+      "truncated": true
+    },
+    {
+      "id": "google-018",
+      "author": "Keyla Fernández Trujillo",
+      "date": "Hace 8 meses",
+      "rating": 5,
+      "text": "Recomendado 100% Fuimos a un cumpleaños un grupo de amigas, nos trataron súper bien, desde el primer momento nos dieron todas las facilidades y comodidades, estuvimos solas en …Más",
+      "truncated": true
+    },
+    {
+      "id": "google-019",
+      "author": "Juan Díaz",
+      "date": "Hace 6 meses",
+      "rating": 5,
+      "text": "Hotel TRH Mijas Una experiencia increíble, destacar la fuerza y profesionalidad de Melisa y su …Más",
+      "truncated": true
+    },
+    {
+      "id": "google-020",
+      "author": "Elisabeth Martinez fernandez",
+      "date": "Hace 2 meses",
+      "rating": 5,
+      "text": "Un spa bueno, cuidado e íntimo, lo mejor el masaje Melisa me hizo un masaje bastante bueno y profesional. Sin duda repetiremos",
+      "truncated": false
+    }
+  ]
+}
