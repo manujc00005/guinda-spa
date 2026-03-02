@@ -1,0 +1,721 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum ServiceType {
+  SPA_CIRCUIT // Circuito spa privado
+  MASSAGE // Masajes terapéuticos y del mundo
+  RITUAL // Rituales del mundo
+  EXFOLIATION // Exfoliaciones y envolturas
+  FACIAL // Tratamientos faciales
+  BODY_TREATMENT // Tratamientos corporales
+  MANICURE // Manicura
+  PEDICURE // Pedicura
+  HAIRDRESSING // Peluquería
+  COUPLE_EXPERIENCE // Experiencias en pareja
+  PACKAGE // Paquetes/experiencias combinadas
+}
+
+enum DurationUnit {
+  MINUTES
+  HOURS
+  SESSIONS // Para bonos (ej: 3 sesiones)
+}
+
+enum OrderStatus {
+  PENDING // Creado, esperando pago
+  PAYMENT_PROCESSING // Pago en proceso
+  PAYMENT_CONFIRMED // Pago confirmado
+  COMPLETED // Servicio/entrega completado
+  CANCELLED // Cancelado por usuario
+  REFUNDED // Reembolsado
+  EXPIRED // Expirado sin uso
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum VoucherStatus {
+  ACTIVE // Disponible para usar
+  PARTIALLY_USED // Tiene usos restantes
+  FULLY_REDEEMED // Todas las sesiones usadas
+  EXPIRED // Caducado por tiempo
+  REFUNDED // Reembolsado (anulado)
+  CANCELLED // Cancelado antes de usar
+}
+
+enum VoucherRestrictionType {
+  ANY_SERVICE // Vale para cualquier servicio
+  CATEGORY // Limitado a una categoría
+  SERVICE // Limitado a un servicio específico
+  PACKAGE // Limitado a paquetes
+}
+
+enum BookingStatus {
+  PENDING // Pendiente de confirmación
+  CONFIRMED // Confirmada
+  IN_PROGRESS // En curso
+  COMPLETED // Completada
+  CANCELLED // Cancelada
+  NO_SHOW // No se presentó
+}
+
+enum AddonApplicationType {
+  PER_PERSON // Se aplica por persona
+  PER_SERVICE // Se aplica por servicio
+  ONE_TIME // Se aplica una sola vez al pedido
+}
+
+// ============================================================================
+// CATÁLOGO - CATEGORÍAS Y SERVICIOS
+// ============================================================================
+
+model Category {
+  id           String  @id @default(cuid())
+  slug         String  @unique // "spa-circuit", "masajes", "rituales"
+  name         String // "Circuito SPA", "Masajes Terapéuticos"
+  description  String? @db.Text
+  imageUrl     String?
+  displayOrder Int     @default(0) // Para ordenar en UI
+  isActive     Boolean @default(true)
+
+  services         Service[]
+  voucherTemplates VoucherTemplate[] @relation("CategoryVoucherRestriction")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([isActive, displayOrder])
+}
+
+model Service {
+  id         String   @id @default(cuid())
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  slug             String      @unique // "masaje-relajante", "kobido-facial"
+  name             String // "Masaje Relajante", "Kobido Facial"
+  description      String?     @db.Text
+  shortDescription String? // Para cards/preview
+  imageUrl         String?
+  type             ServiceType
+
+  // Precio base (puede ser "desde X€" si hay variantes)
+  basePrice   Decimal? @db.Decimal(10, 2)
+  isPriceFrom Boolean  @default(false) // True = "Desde X€"
+
+  // Duración base (si no hay variantes)
+  baseDuration Int? // en minutos
+
+  // Capacidad
+  maxCapacity Int @default(1) // 1=individual, 2=pareja
+
+  // Flags
+  isActive        Boolean @default(true)
+  isFeatured      Boolean @default(false)
+  requiresBooking Boolean @default(true) // False para productos que no necesitan cita
+
+  displayOrder Int @default(0)
+
+  // Relaciones
+  variants         ServiceVariant[]
+  addons           ServiceAddon[] // Extras aplicables
+  packageItems     PackageItem[]
+  voucherTemplates VoucherTemplate[] @relation("ServiceVoucherRestriction")
+  orderItems       OrderItem[]
+  bookings         Booking[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? // Soft delete
+
+  @@index([categoryId])
+  @@index([slug])
+  @@index([type])
+  @@index([isActive, isFeatured])
+}
+
+model ServiceVariant {
+  id        String  @id @default(cuid())
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  // Identificación de la variante
+  name        String // "30 minutos", "60 minutos", "Descontracturante", "Cuello y espalda"
+  slug        String // "30min", "descontracturante", "cuello-espalda"
+  description String?
+
+  // Dimensiones de variación
+  duration     Int? // minutos (30, 60, 90)
+  durationUnit DurationUnit @default(MINUTES)
+  area         String? // "cuello_espalda", "cuerpo_completo", "facial", "piernas"
+  variantType  String? // "relajante", "descontracturante", "deportivo"
+
+  // Precio específico
+  price Decimal @db.Decimal(10, 2)
+
+  // Extras aplicables solo a esta variante
+  extraCharge Decimal? @db.Decimal(10, 2) // ej: +10€ por deportivo
+
+  isActive     Boolean @default(true)
+  displayOrder Int     @default(0)
+
+  orderItems   OrderItem[]
+  packageItems PackageItem[]
+  bookings     Booking[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([serviceId, slug])
+  @@index([serviceId])
+}
+
+// ============================================================================
+// ADDONS (EXTRAS)
+// ============================================================================
+
+model Addon {
+  id              String               @id @default(cuid())
+  slug            String               @unique
+  name            String // "Toalla y chanclas", "IBX Treatment", "Kerastase"
+  description     String?
+  price           Decimal              @db.Decimal(10, 2)
+  applicationType AddonApplicationType @default(PER_PERSON)
+
+  isActive Boolean @default(true)
+
+  // Relaciones
+  services      ServiceAddon[]
+  orderAddons   OrderAddon[]
+  packageAddons PackageAddon[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+}
+
+// Tabla pivote: qué addons aplican a qué servicios
+model ServiceAddon {
+  id        String  @id @default(cuid())
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  addonId   String
+  addon     Addon   @relation(fields: [addonId], references: [id], onDelete: Cascade)
+
+  isRecommended Boolean @default(false) // Para destacar en UI
+  displayOrder  Int     @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@unique([serviceId, addonId])
+  @@index([serviceId])
+  @@index([addonId])
+}
+
+// ============================================================================
+// PACKAGES / EXPERIENCIAS
+// ============================================================================
+
+model Package {
+  id               String  @id @default(cuid())
+  slug             String  @unique
+  name             String // "Pacific Spirit", "Experiencia Pareja Premium"
+  description      String? @db.Text
+  shortDescription String?
+  imageUrl         String?
+
+  // Precio total del paquete
+  price         Decimal  @db.Decimal(10, 2)
+  originalPrice Decimal? @db.Decimal(10, 2) // Para mostrar descuento
+
+  // Duración total estimada
+  totalDuration Int? // minutos
+
+  // Capacidad
+  capacity Int @default(1) // 1=individual, 2=pareja
+
+  isActive     Boolean @default(true)
+  isFeatured   Boolean @default(false)
+  displayOrder Int     @default(0)
+
+  // Componentes del paquete
+  items  PackageItem[]
+  addons PackageAddon[]
+
+  orderItems       OrderItem[]
+  voucherTemplates VoucherTemplate[] @relation("PackageVoucherRestriction")
+  bookings         Booking[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([slug])
+  @@index([isActive, isFeatured])
+}
+
+model PackageItem {
+  id        String  @id @default(cuid())
+  packageId String
+  package   Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+  // Puede ser servicio base o variante específica
+  serviceId String?
+  service   Service?        @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  variantId String?
+  variant   ServiceVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+
+  quantity     Int     @default(1) // ej: 2 masajes
+  description  String? // Descripción custom del item en el paquete
+  displayOrder Int     @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@index([packageId])
+  @@index([serviceId])
+}
+
+model PackageAddon {
+  id        String  @id @default(cuid())
+  packageId String
+  package   Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  addonId   String
+  addon     Addon   @relation(fields: [addonId], references: [id], onDelete: Cascade)
+
+  isIncluded Boolean @default(false) // True = incluido, False = opcional con cargo
+  quantity   Int     @default(1)
+
+  createdAt DateTime @default(now())
+
+  @@unique([packageId, addonId])
+  @@index([packageId])
+}
+
+// ============================================================================
+// VOUCHERS / BONOS
+// ============================================================================
+
+model VoucherTemplate {
+  id          String  @id @default(cuid())
+  slug        String  @unique // "bono-3-plus-1", "bono-5-plus-1"
+  name        String // "Bono 3+1 Gratis", "Bono 5+1 Gratis"
+  description String? @db.Text
+
+  // Sesiones incluidas
+  sessionsIncluded Int // 4 (3+1) o 6 (5+1)
+  sessionsBonus    Int @default(0) // 1 para 3+1, 1 para 5+1
+
+  // Precio del bono
+  price Decimal @db.Decimal(10, 2)
+
+  // Caducidad desde compra
+  validityDays Int // 30 días (1 mes) o 90 días (3 meses)
+
+  // Restricciones de uso
+  restrictionType VoucherRestrictionType @default(ANY_SERVICE)
+
+  // Si es restricción por categoría
+  restrictedToCategoryId String?
+  restrictedToCategory   Category? @relation("CategoryVoucherRestriction", fields: [restrictedToCategoryId], references: [id], onDelete: SetNull)
+
+  // Si es restricción por servicio específico
+  restrictedToServiceId String?
+  restrictedToService   Service? @relation("ServiceVoucherRestriction", fields: [restrictedToServiceId], references: [id], onDelete: SetNull)
+
+  // Si es restricción por paquete
+  restrictedToPackageId String?
+  restrictedToPackage   Package? @relation("PackageVoucherRestriction", fields: [restrictedToPackageId], references: [id], onDelete: SetNull)
+
+  // Valor monetario por sesión (opcional, para bonos regalo)
+  sessionValue Decimal? @db.Decimal(10, 2)
+
+  isActive   Boolean @default(true)
+  isGiftable Boolean @default(true) // Se puede regalar
+
+  vouchers   Voucher[]
+  orderItems OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([isActive])
+}
+
+model Voucher {
+  id   String @id @default(cuid())
+  code String @unique // Generado: "GUINDA-XXXX-XXXX"
+
+  templateId String
+  template   VoucherTemplate @relation(fields: [templateId], references: [id], onDelete: Restrict)
+
+  // Propiedad
+  purchasedById String? // Customer que lo compró
+  purchasedBy   Customer? @relation("PurchasedVouchers", fields: [purchasedById], references: [id], onDelete: SetNull)
+
+  recipientId String? // A quién se lo regala (puede ser el mismo)
+  recipient   Customer? @relation("ReceivedVouchers", fields: [recipientId], references: [id], onDelete: SetNull)
+
+  recipientName  String? // Si es regalo y no hay cuenta
+  recipientEmail String?
+  giftMessage    String? @db.Text
+
+  // Estado y uso
+  status            VoucherStatus @default(ACTIVE)
+  sessionsRemaining Int // Empieza en sessionsIncluded
+
+  // Fechas
+  purchasedAt     DateTime  @default(now())
+  expiresAt       DateTime // purchasedAt + validityDays
+  firstUsedAt     DateTime? // Primera redención
+  fullyRedeemedAt DateTime? // Cuando sessionsRemaining = 0
+
+  // Relación con orden de compra
+  orderId String?
+  order   Order?  @relation(fields: [orderId], references: [id], onDelete: SetNull)
+
+  // Redenciones
+  redemptions VoucherRedemption[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([code])
+  @@index([status])
+  @@index([purchasedById])
+  @@index([recipientId])
+  @@index([expiresAt])
+}
+
+model VoucherRedemption {
+  id        String  @id @default(cuid())
+  voucherId String
+  voucher   Voucher @relation(fields: [voucherId], references: [id], onDelete: Cascade)
+
+  // Redención aplicada a qué
+  orderId String?
+  order   Order?  @relation(fields: [orderId], references: [id], onDelete: SetNull)
+
+  bookingId String?
+  booking   Booking? @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+
+  // Valor descontado en esta redención
+  valueApplied Decimal @db.Decimal(10, 2)
+  sessionsUsed Int     @default(1)
+
+  redeemedAt DateTime @default(now())
+  redeemedBy String? // Staff/admin que procesó
+
+  notes String? @db.Text
+
+  @@index([voucherId])
+  @@index([orderId])
+  @@index([bookingId])
+}
+
+// ============================================================================
+// CUSTOMERS / USERS
+// ============================================================================
+
+model Customer {
+  id    String @id @default(cuid())
+  email String @unique
+
+  // Datos personales
+  firstName String?
+  lastName  String?
+  phone     String?
+
+  // Autenticación (opcional si usas NextAuth o similar)
+  passwordHash  String?
+  emailVerified DateTime?
+
+  // Preferencias
+  marketingConsent Boolean @default(false)
+  language         String  @default("es")
+
+  // Relaciones
+  orders            Order[]
+  bookings          Booking[]
+  purchasedVouchers Voucher[] @relation("PurchasedVouchers")
+  receivedVouchers  Voucher[] @relation("ReceivedVouchers")
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([email])
+}
+
+// ============================================================================
+// ORDERS (PEDIDOS / COMPRAS)
+// ============================================================================
+
+model Order {
+  id          String @id @default(cuid())
+  orderNumber String @unique // "GND-2024-0001"
+
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+
+  // Guest checkout
+  guestEmail String?
+  guestName  String?
+  guestPhone String?
+
+  // Tipo de compra
+  isVoucherPurchase Boolean @default(false) // True = compra de bono
+  isServicePurchase Boolean @default(false) // True = compra con reserva
+
+  // Importes
+  subtotal       Decimal @db.Decimal(10, 2)
+  discountAmount Decimal @default(0) @db.Decimal(10, 2)
+  taxAmount      Decimal @default(0) @db.Decimal(10, 2) // IVA 21%
+  total          Decimal @db.Decimal(10, 2)
+
+  currency String @default("EUR")
+
+  // Estado
+  status OrderStatus @default(PENDING)
+
+  // Relaciones
+  items              OrderItem[]
+  addons             OrderAddon[]
+  payments           Payment[]
+  vouchers           Voucher[] // Vouchers generados por esta orden
+  voucherRedemptions VoucherRedemption[] // Vouchers canjeados en esta orden
+  bookings           Booking[]
+
+  // Metadata
+  notes         String? @db.Text
+  internalNotes String? @db.Text
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  completedAt DateTime?
+  cancelledAt DateTime?
+
+  @@index([orderNumber])
+  @@index([customerId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id      String @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  // Tipo de item
+  itemType String // "service", "service_variant", "package", "voucher"
+
+  // Referencias (solo una debe estar llena según itemType)
+  serviceId String?
+  service   Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  variantId String?
+  variant   ServiceVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+
+  packageId String?
+  package   Package? @relation(fields: [packageId], references: [id], onDelete: SetNull)
+
+  voucherTemplateId String?
+  voucherTemplate   VoucherTemplate? @relation(fields: [voucherTemplateId], references: [id], onDelete: SetNull)
+
+  // Snapshot de datos (para historial)
+  name        String // Nombre del servicio/paquete en el momento de compra
+  description String?
+
+  quantity   Int     @default(1)
+  unitPrice  Decimal @db.Decimal(10, 2)
+  totalPrice Decimal @db.Decimal(10, 2) // quantity * unitPrice
+
+  // Fecha/hora deseada (si es reserva)
+  preferredDate DateTime?
+  preferredTime String? // "10:00", "14:30"
+
+  displayOrder Int @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@index([orderId])
+  @@index([serviceId])
+  @@index([packageId])
+}
+
+model OrderAddon {
+  id      String @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  addonId String
+  addon   Addon  @relation(fields: [addonId], references: [id], onDelete: Restrict)
+
+  name       String // Snapshot
+  quantity   Int     @default(1)
+  unitPrice  Decimal @db.Decimal(10, 2)
+  totalPrice Decimal @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+
+  @@index([orderId])
+  @@index([addonId])
+}
+
+// ============================================================================
+// PAYMENTS (MONEI INTEGRATION)
+// ============================================================================
+
+model Payment {
+  id      String @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  // MONEI IDs
+  paymentId String  @unique // MONEI payment_intent ID
+  sessionId String? @unique // MONEI checkout session ID
+  chargeId  String? // MONEI charge ID (cuando succeeded)
+
+  // Importes
+  amount   Decimal @db.Decimal(10, 2)
+  currency String  @default("EUR")
+
+  // Estado
+  status PaymentStatus @default(PENDING)
+
+  // Método de pago
+  paymentMethod String? // "card", "bizum", "paypal"
+
+  // URLs de redirección
+  successUrl String?
+  cancelUrl  String?
+
+  // Metadata adicional
+  metadata Json? // Datos extra de MONEI
+
+  // Reembolsos
+  refundedAmount Decimal @default(0) @db.Decimal(10, 2)
+
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  confirmedAt DateTime?
+  failedAt    DateTime?
+  refundedAt  DateTime?
+
+  @@index([orderId])
+  @@index([paymentId])
+  @@index([sessionId])
+  @@index([status])
+}
+
+// ============================================================================
+// MONEI WEBHOOK EVENTS (IDEMPOTENCIA)
+// ============================================================================
+
+model MoneiEvent {
+  id        String @id @default(cuid())
+  eventId   String @unique // MONEI event ID para idempotencia
+  eventType String // "checkout.session.completed", "payment_intent.succeeded"
+
+  // Payload completo
+  payload Json
+
+  // Estado de procesamiento
+  processed       Boolean   @default(false)
+  processedAt     DateTime?
+  processingError String?   @db.Text
+
+  // Relaciones opcionales
+  relatedOrderId   String?
+  relatedPaymentId String?
+
+  receivedAt DateTime @default(now())
+
+  @@index([eventId])
+  @@index([eventType])
+  @@index([processed])
+}
+
+// ============================================================================
+// BOOKINGS / APPOINTMENTS (RESERVAS)
+// ============================================================================
+
+model Booking {
+  id            String @id @default(cuid())
+  bookingNumber String @unique // "BKG-2024-0001"
+
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+
+  orderId String?
+  order   Order?  @relation(fields: [orderId], references: [id], onDelete: SetNull)
+
+  // Qué se reservó
+  serviceId String?
+  service   Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  variantId String?
+  variant   ServiceVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+
+  packageId String?
+  package   Package? @relation(fields: [packageId], references: [id], onDelete: SetNull)
+
+  // Snapshot de datos
+  serviceName String
+  duration    Int // minutos
+
+  // Fecha y hora
+  bookingDate DateTime
+  startTime   String // "10:00"
+  endTime     String // "11:30"
+
+  // Capacidad
+  numberOfPeople Int @default(1)
+
+  // Estado
+  status BookingStatus @default(PENDING)
+
+  // Notas
+  customerNotes String? @db.Text
+  staffNotes    String? @db.Text
+
+  // Voucher aplicado
+  voucherRedemptions VoucherRedemption[]
+
+  // Confirmación
+  confirmedAt DateTime?
+  completedAt DateTime?
+  cancelledAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([bookingNumber])
+  @@index([customerId])
+  @@index([orderId])
+  @@index([bookingDate])
+  @@index([status])
+}

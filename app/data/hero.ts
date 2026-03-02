@@ -1,24 +1,29 @@
-import { SectionHeaderData, CTAButton, Imagen } from "../types/common";
+import { CTAButton, Imagen } from "../types/common";
 
 export const HERO_DATA = {
-  eyebrow: "Wellness Premium",
-  titulo: "Tu refugio de calma\ny bienestar",
+  eyebrow: "Spa Privado en Hotel TRH Mijas",
+  titulo: "Tu circuito spa privado\nen la Costa del Sol",
   descripcion:
-    "Desconecta del estrés diario con nuestro circuito spa privado y masajes terapéuticos",
+    "Jacuzzi, sauna y baño turco solo para ti. Masajes terapéuticos, rituales premium y experiencias en pareja con cava & chocolate.",
   imagen: {
-    src: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1600&auto=format&fit=crop&q=85",
-    alt: "Spa wellness",
+    src: "/images/hero/hero.png",
+    alt: "Circuito spa privado con jacuzzi en Hotel TRH Mijas",
   } as Imagen,
   ctas: [
     {
       label: "Reservar Spa + Masaje",
-      href: "#spa-masaje",
+      href: "#reservar",
       variant: "primary",
     },
     {
-      label: "Ver packs",
-      href: "#packs",
+      label: "Experiencia en Pareja",
+      href: "#experiencias",
       variant: "glass",
     },
   ] as CTAButton[],
+  trust: [
+    { label: "Hotel TRH Mijas", icon: "hotel" },
+    { label: "4.9★ en Google", icon: "star" },
+    { label: "Spa 100% privado", icon: "lock" },
+  ],
 };

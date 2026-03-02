@@ -51,5 +51,5 @@ export const COMPANY_DATA: CompanyData = {
   yearFounded: 2020, // ⚠️ CAMBIAR O ELIMINAR
 
   // Descripción breve para footer
-  description: "Tu refugio de calma y bienestar en el corazón de Madrid",
+  description: "Spa privado en Hotel TRH Mijas. Circuito exclusivo, masajes terapéuticos y experiencias wellness en pareja.",
 };

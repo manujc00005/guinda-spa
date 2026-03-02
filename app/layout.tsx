@@ -20,53 +20,54 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Guinda Wellnes & Spa | Circuito Spa Privado + Masajes en Madrid",
-    template: "%s | Guinda Wellnes & Spa",
+    default: "Guinda Wellness & Spa | Spa Privado en Hotel TRH Mijas",
+    template: "%s | Guinda Wellness & Spa",
   },
   description:
-    "Spa premium en Madrid con circuito privado (jacuzzi, sauna, baño turco) y masajes terapéuticos. Packs pareja desde 160€. Reserva tu experiencia de bienestar.",
+    "Spa privado en Hotel TRH Mijas. Circuito exclusivo con jacuzzi, sauna y baño turco. Masajes terapéuticos y experiencias en pareja con cava & chocolate. Desde 75€.",
   keywords: [
-    "spa Madrid",
+    "spa privado Mijas",
+    "spa Hotel TRH Mijas",
     "circuito spa privado",
-    "masajes Madrid",
-    "spa pareja Madrid",
-    "masaje relajante",
+    "masajes Mijas",
+    "spa pareja Costa del Sol",
+    "masaje relajante Mijas",
     "jacuzzi privado",
-    "sauna Madrid",
+    "sauna Mijas",
     "tratamientos faciales",
-    "spa lujo Madrid",
+    "spa lujo Costa del Sol",
     "bonos regalo spa",
-    "masaje descontracturante",
-    "ritual spa",
+    "experiencia wellness pareja",
+    "spa boutique Mijas",
   ],
-  authors: [{ name: "Guinda Wellnes & Spa" }],
-  creator: "Guinda Wellnes & Spa",
-  publisher: "Guinda Wellnes & Spa",
-  metadataBase: new URL("https://spaserenity.com"), // Cambiar por tu dominio real
+  authors: [{ name: "Guinda Wellness & Spa" }],
+  creator: "Guinda Wellness & Spa",
+  publisher: "Guinda Wellness & Spa",
+  metadataBase: new URL("https://guindawellness.es"), // ⚠️ Cambiar por dominio real
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Guinda Wellnes & Spa | Circuito Spa Privado + Masajes en Madrid",
+    title: "Guinda Wellness & Spa | Spa Privado en Hotel TRH Mijas",
     description:
-      "Desconecta del estrés con nuestro circuito spa 100% privado y masajes personalizados. Packs pareja desde 160€. Tu refugio de calma en el corazón de Madrid.",
-    url: "https://spaserenity.com",
-    siteName: "Guinda Wellnes & Spa",
+      "Tu circuito spa privado en la Costa del Sol. Jacuzzi, sauna y baño turco solo para ti. Experiencias en pareja con cava & chocolate desde 160€.",
+    url: "https://guindawellness.es",
+    siteName: "Guinda Wellness & Spa",
     locale: "es_ES",
     type: "website",
     images: [
       {
-        url: "/images/og-image.jpg", // Crear esta imagen 1200x630px
+        url: "/images/og-image.jpg", // ⚠️ Crear imagen 1200x630px
         width: 1200,
         height: 630,
-        alt: "Guinda Wellnes & Spa - Circuito privado y masajes premium",
+        alt: "Guinda Wellness & Spa - Spa privado en Hotel TRH Mijas",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Guinda Wellnes & Spa | Circuito Spa Privado + Masajes",
-    description: "Tu refugio de calma y bienestar en Madrid. Circuito privado + masajes desde 105€.",
+    title: "Guinda Wellness & Spa | Spa Privado en Hotel TRH Mijas",
+    description: "Tu circuito spa privado en la Costa del Sol. Experiencias en pareja con cava & chocolate.",
     images: ["/images/og-image.jpg"],
   },
   robots: {

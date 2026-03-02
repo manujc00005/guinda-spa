@@ -6,6 +6,34 @@ import { COMPANY_DATA } from "../../data/company";
 import { NAVIGATION } from "../../data/navigation";
 import { SOCIAL_MEDIA } from "../../data/social";
 
+/**
+ * HEADER INMERSIVO PREMIUM
+ *
+ * Dos estados visuales con transición orgánica:
+ *
+ * Estado HERO (top):
+ *   - Background: totalmente transparente
+ *   - Texto: blanco puro
+ *   - CTA: borde blanco semi-transparente (glass)
+ *   - Sin borde inferior
+ *   - El header "vive dentro" de la imagen hero
+ *
+ * Estado SCROLL (activo):
+ *   - Background: blanco con glassmorphism (blur + opacidad)
+ *   - Texto: oscuro (color-text-primary / secondary)
+ *   - CTA: btn-primary sólido burdeos
+ *   - Sombra sutil premium (sin borde duro)
+ *   - El header "emerge" con elegancia
+ *
+ * Transición: 400ms cubic-bezier para sensación orgánica.
+ * Mobile: hamburguesa blanca sobre hero, oscura tras scroll.
+ * El menú mobile siempre abre en fondo blanco sólido.
+ *
+ * Threshold: 80px (no 16px) para que el header permanezca
+ * transparente durante más scroll dentro del hero.
+ */
+
+const SCROLL_THRESHOLD = 80;
 const DESKTOP_NAV_MAX = 5;
 
 function isHashHref(href: string) {
@@ -15,11 +43,8 @@ function isHashHref(href: string) {
 function scrollToHash(href: string) {
   const id = href.replace("#", "");
   if (!id) return;
-
   const el = document.getElementById(id);
   if (!el) return;
-
-  // Respeta scroll-margin-top (recomendado en secciones) y scroll-padding-top (html)
   el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
@@ -28,7 +53,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 16);
+    const onScroll = () => setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -47,15 +72,9 @@ export function Header() {
   const handleHashClick =
     (href: string) =>
     (e: React.MouseEvent<HTMLAnchorElement>) => {
-      // IMPORTANTE: prevenimos el salto brusco y controlamos el smooth scroll
       e.preventDefault();
-
-      // Cierra menú si aplica
       if (isMobileMenuOpen) closeMenu();
-
-      // Espera a que el DOM se refluya (y el menú se cierre) antes del scroll
       requestAnimationFrame(() => {
-        // Actualiza el hash en URL sin recargar
         if (window.location.hash !== href) {
           history.pushState(null, "", href);
         }
@@ -63,92 +82,106 @@ export function Header() {
       });
     };
 
+  // Cuando el menú mobile está abierto, forzamos estilo "scrolled"
+  // para que el header tenga fondo blanco y texto oscuro
+  const showSolid = isScrolled || isMobileMenuOpen;
+
   return (
     <>
-      {/* HEADER (solo: logo + nav + CTA) */}
+      {/* ─── HEADER ─── */}
       <header
         className={[
           "fixed top-0 left-0 right-0 z-50",
-          "transition-[background-color,border-color,backdrop-filter] duration-300",
-          isScrolled
-            ? "bg-white/95 backdrop-blur-md border-b border-(--color-border)"
-            : "bg-white/65 backdrop-blur-sm border-b border-transparent",
+          "transition-all duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
+          showSolid
+            ? "bg-white/95 backdrop-blur-xl shadow-[0_1px_24px_rgba(0,0,0,0.06)]"
+            : "bg-transparent",
         ].join(" ")}
       >
         <div className="container-page">
           <div className="flex h-18 md:h-20 items-center justify-between">
-            {/* Logo */}
-            {/*
-              Para #inicio usamos <a> + smooth scroll, no Link.
-              Así no dependemos del comportamiento de Next con hashes.
-            */}
+
+            {/* ── Logo ── */}
             <a
               href="#inicio"
               onClick={handleHashClick("#inicio")}
               className={[
                 "font-playfair font-semibold",
                 "text-xl md:text-2xl",
-                "text-(--color-text-primary)",
-                "transition-colors hover:text-(--color-primary)",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/30 focus-visible:ring-offset-4 focus-visible:ring-offset-white/80",
+                "transition-colors duration-[400ms]",
+                showSolid
+                  ? "text-(--color-text-primary) hover:text-(--color-primary)"
+                  : "text-white hover:text-white/80",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
               ].join(" ")}
               aria-label={`${COMPANY_DATA.brandName} - Ir al inicio`}
             >
               {COMPANY_DATA.brandName}
             </a>
 
-            {/* Navegación desktop (máx 5) */}
+            {/* ── Navegación desktop ── */}
             <nav className="hidden lg:flex items-center gap-8">
-              {navItems.map((item) =>
-                isHashHref(item.href) ? (
+              {navItems.map((item) => {
+                const linkClasses = [
+                  "text-sm font-medium tracking-wide",
+                  "transition-colors duration-[400ms]",
+                  showSolid
+                    ? "text-(--color-text-secondary) hover:text-(--color-text-primary)"
+                    : "text-white/75 hover:text-white",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
+                ].join(" ");
+
+                return isHashHref(item.href) ? (
                   <a
                     key={item.href}
                     href={item.href}
                     onClick={handleHashClick(item.href)}
-                    className={[
-                      "text-sm font-medium",
-                      "text-(--color-text-secondary)",
-                      "transition-colors hover:text-(--color-text-primary)",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/25 focus-visible:ring-offset-4 focus-visible:ring-offset-white/80",
-                    ].join(" ")}
+                    className={linkClasses}
                   >
                     {item.label}
                   </a>
                 ) : (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={[
-                      "text-sm font-medium",
-                      "text-(--color-text-secondary)",
-                      "transition-colors hover:text-(--color-text-primary)",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/25 focus-visible:ring-offset-4 focus-visible:ring-offset-white/80",
-                    ].join(" ")}
-                  >
+                  <Link key={item.href} href={item.href} className={linkClasses}>
                     {item.label}
                   </Link>
-                )
-              )}
+                );
+              })}
             </nav>
 
-            {/* Desktop: SOLO CTA */}
+            {/* ── Desktop CTA ── */}
             <div className="hidden lg:flex items-center">
-              {isHashHref(NAVIGATION.cta.href) ? (
-                <a
-                  href={NAVIGATION.cta.href}
-                  onClick={handleHashClick(NAVIGATION.cta.href)}
-                  className="btn-primary text-sm px-6 py-2.5"
-                >
-                  {NAVIGATION.cta.label}
-                </a>
-              ) : (
-                <Link href={NAVIGATION.cta.href} className="btn-primary text-sm px-6 py-2.5">
-                  {NAVIGATION.cta.label}
-                </Link>
-              )}
+              {(() => {
+                // Estado hero: CTA glass (borde blanco, fondo transparente)
+                // Estado scroll: CTA sólido burdeos
+                const ctaClasses = showSolid
+                  ? "btn-primary text-sm px-6 py-2.5"
+                  : [
+                      "inline-flex items-center justify-center",
+                      "text-sm font-medium px-6 py-2.5",
+                      "rounded-full",
+                      "border border-white/35 text-white",
+                      "bg-white/10 backdrop-blur-sm",
+                      "transition-all duration-[400ms]",
+                      "hover:bg-white/20 hover:border-white/50",
+                    ].join(" ");
+
+                return isHashHref(NAVIGATION.cta.href) ? (
+                  <a
+                    href={NAVIGATION.cta.href}
+                    onClick={handleHashClick(NAVIGATION.cta.href)}
+                    className={ctaClasses}
+                  >
+                    {NAVIGATION.cta.label}
+                  </a>
+                ) : (
+                  <Link href={NAVIGATION.cta.href} className={ctaClasses}>
+                    {NAVIGATION.cta.label}
+                  </Link>
+                );
+              })()}
             </div>
 
-            {/* Mobile: SOLO hamburguesa */}
+            {/* ── Mobile hamburguesa ── */}
             <div className="flex lg:hidden items-center">
               <button
                 onClick={() => setIsMobileMenuOpen((v) => !v)}
@@ -157,11 +190,11 @@ export function Header() {
                 className={[
                   "inline-flex items-center justify-center",
                   "w-11 h-11 rounded-full",
-                  "text-(--color-text-primary)",
-                  "border border-transparent hover:border-(--color-border)",
-                  "hover:bg-black/[0.02]",
-                  "transition-colors",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/25 focus-visible:ring-offset-4 focus-visible:ring-offset-white/80",
+                  "transition-all duration-[400ms]",
+                  showSolid
+                    ? "text-(--color-text-primary) hover:bg-black/[0.03]"
+                    : "text-white hover:bg-white/10",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
                 ].join(" ")}
               >
                 {isMobileMenuOpen ? (
@@ -175,26 +208,30 @@ export function Header() {
                 )}
               </button>
             </div>
+
           </div>
         </div>
       </header>
 
-      {/* MENÚ MOBILE (CTA + links) */}
+      {/* ─── MENÚ MOBILE ─── */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-black/15 backdrop-blur-sm" onClick={closeMenu} />
+          {/* Overlay oscuro */}
+          <div
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm animate-fade-in"
+            onClick={closeMenu}
+          />
 
-          {/* Panel */}
-          <div className="absolute top-18 left-0 right-0 bottom-0 bg-white/98">
+          {/* Panel blanco desde top */}
+          <div className="absolute top-18 left-0 right-0 bottom-0 bg-white animate-fade-in-up">
             <nav className="container-page py-8">
               {/* CTA principal primero */}
-              <div className="mb-7">
+              <div className="mb-8">
                 {isHashHref(NAVIGATION.cta.href) ? (
                   <a
                     href={NAVIGATION.cta.href}
                     onClick={handleHashClick(NAVIGATION.cta.href)}
-                    className="btn-primary w-full text-center py-4 block"
+                    className="btn-primary w-full text-center py-4 block text-base"
                   >
                     {NAVIGATION.cta.label}
                   </a>
@@ -202,65 +239,68 @@ export function Header() {
                   <Link
                     href={NAVIGATION.cta.href}
                     onClick={closeMenu}
-                    className="btn-primary w-full text-center py-4 block"
+                    className="btn-primary w-full text-center py-4 block text-base"
                   >
                     {NAVIGATION.cta.label}
                   </Link>
                 )}
               </div>
 
+              {/* Separador sutil */}
+              <div className="flex items-center gap-3 mb-6 px-4">
+                <div className="flex-1 h-px bg-(--color-border-light)" />
+                <span className="text-[10px] tracking-[0.2em] uppercase text-(--color-text-muted)">Explorar</span>
+                <div className="flex-1 h-px bg-(--color-border-light)" />
+              </div>
+
               {/* Links */}
               <ul className="space-y-1">
-                {NAVIGATION.items.map((item) => (
-                  <li key={item.href}>
-                    {isHashHref(item.href) ? (
-                      <a
-                        href={item.href}
-                        onClick={handleHashClick(item.href)}
-                        className={[
-                          "block rounded-xl",
-                          "py-4 px-4",
-                          "text-base font-medium",
-                          "text-(--color-text-primary)",
-                          "hover:bg-black/[0.02] hover:text-(--color-primary)",
-                          "transition-colors",
-                          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/25 focus-visible:ring-offset-4",
-                        ].join(" ")}
-                      >
-                        {item.label}
-                      </a>
-                    ) : (
-                      <Link
-                        href={item.href}
-                        onClick={closeMenu}
-                        className={[
-                          "block rounded-xl",
-                          "py-4 px-4",
-                          "text-base font-medium",
-                          "text-(--color-text-primary)",
-                          "hover:bg-black/[0.02] hover:text-(--color-primary)",
-                          "transition-colors",
-                          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/25 focus-visible:ring-offset-4",
-                        ].join(" ")}
-                      >
-                        {item.label}
-                      </Link>
-                    )}
-                  </li>
-                ))}
+                {NAVIGATION.items.map((item) => {
+                  const linkClasses = [
+                    "block rounded-xl",
+                    "py-4 px-4",
+                    "text-base font-medium",
+                    "text-(--color-text-primary)",
+                    "hover:bg-(--color-ivory) hover:text-(--color-primary)",
+                    "transition-colors duration-200",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/25 focus-visible:ring-offset-4",
+                  ].join(" ");
+
+                  return (
+                    <li key={item.href}>
+                      {isHashHref(item.href) ? (
+                        <a
+                          href={item.href}
+                          onClick={handleHashClick(item.href)}
+                          className={linkClasses}
+                        >
+                          {item.label}
+                        </a>
+                      ) : (
+                        <Link href={item.href} onClick={closeMenu} className={linkClasses}>
+                          {item.label}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
 
               {/* Info sutil */}
-              <div className="mt-10 px-4 text-center">
-                <p className="text-xs text-(--color-text-secondary) mb-1">Horario de atención</p>
-                <p className="text-sm font-medium text-(--color-text-primary)">{COMPANY_DATA.businessHours.weekdays}</p>
+              <div className="mt-12 pt-6 border-t border-(--color-border-light) px-4 text-center">
+                <p className="text-[10px] tracking-[0.15em] uppercase text-(--color-text-muted) mb-1.5">
+                  Horario de atención
+                </p>
+                <p className="text-sm font-medium text-(--color-text-primary)">
+                  {COMPANY_DATA.businessHours.weekdays}
+                </p>
               </div>
             </nav>
           </div>
         </div>
       )}
 
-      {/* WHATSAPP FLOATING (aparece tras scroll) */}
+      {/* ─── WHATSAPP FLOATING ─── */}
       {SOCIAL_MEDIA.whatsapp && (
         <a
           href={SOCIAL_MEDIA.whatsapp.url}
@@ -273,13 +313,13 @@ export function Header() {
             "right-4 bottom-4 md:right-6 md:bottom-6",
             "inline-flex items-center justify-center",
             "w-12 h-12 rounded-full",
-            "bg-white/90 backdrop-blur",
-            "border border-(--color-border)",
+            "bg-white/90 backdrop-blur-md",
+            "border border-(--color-border-light)",
             "text-(--color-text-secondary)",
-            "shadow-sm",
-            "transition-all duration-300",
-            isScrolled ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none",
-            "hover:text-(--color-text-primary) hover:bg-white",
+            "shadow-[var(--shadow-soft)]",
+            "transition-all duration-400",
+            isScrolled ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none",
+            "hover:text-(--color-primary) hover:bg-white hover:shadow-[var(--shadow-premium)]",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/25 focus-visible:ring-offset-4 focus-visible:ring-offset-white/80",
           ].join(" ")}
         >

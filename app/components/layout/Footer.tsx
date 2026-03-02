@@ -4,17 +4,38 @@ import { COMPANY_DATA } from "../../data/company";
 import { SOCIAL_MEDIA, LEGAL_LINKS } from "../../data/social";
 import Link from "next/link";
 
+/**
+ * FOOTER PREMIUM
+ *
+ * Evolución: más limpio, más espaciado, tagline visible,
+ * emojis reemplazados por SVGs, ornamento dorado.
+ */
+
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer id="contacto" className="py-16 md:py-24 bg-(--color-text-primary) text-white">
       <div className="container-page">
-        <div className="grid md:grid-cols-4 gap-12 mb-12">
+        {/* Ornamento superior */}
+        <div className="flex justify-center mb-12 md:mb-16">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-px bg-white/20" />
+            <span className="text-(--color-gold) text-sm">✦</span>
+            <div className="w-12 h-px bg-white/20" />
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-4 gap-12 mb-14">
           {/* Bloque 1: Marca + Descripción */}
           <div className="md:col-span-2">
-            <h3 className="text-2xl font-playfair font-semibold mb-4">{COMPANY_DATA.brandName}</h3>
-            <p className="text-sm text-white/80 leading-relaxed mb-6">{COMPANY_DATA.description}</p>
+            <h3 className="text-2xl font-playfair font-semibold mb-2">{COMPANY_DATA.brandName}</h3>
+            <p className="text-xs tracking-[0.15em] uppercase text-(--color-gold)/80 mb-4 font-medium">
+              Spa Privado en Hotel TRH Mijas
+            </p>
+            <p className="text-sm text-white/70 leading-relaxed mb-6 max-w-sm">
+              {COMPANY_DATA.description}
+            </p>
 
             {/* Redes Sociales */}
             <div className="flex items-center gap-4">
@@ -27,9 +48,9 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.ariaLabel}
-                    className="text-white hover:text-(--color-primary) hover:scale-110 transition-all duration-200"
+                    className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/70 hover:text-white hover:border-white/30 hover:bg-white/5 transition-all duration-200"
                   >
-                    <IconComponent className="w-6 h-6" />
+                    <IconComponent className="w-4.5 h-4.5" />
                   </a>
                 );
               })}
@@ -38,10 +59,12 @@ export function Footer() {
 
           {/* Bloque 2: Contacto */}
           <div>
-            <h4 className="font-semibold mb-4 tracking-wide text-white">Contacto</h4>
-            <div className="space-y-2 text-sm text-white/80">
-              <p className="flex items-start gap-2">
-                <span className="flex-shrink-0">📞</span>
+            <h4 className="text-xs tracking-[0.18em] uppercase text-white/50 mb-5 font-medium">Contacto</h4>
+            <div className="space-y-3 text-sm text-white/70">
+              <p className="flex items-center gap-3">
+                <svg className="w-4 h-4 flex-shrink-0 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                </svg>
                 <a
                   href={`tel:${COMPANY_DATA.contact.phone.replace(/\s/g, "")}`}
                   className="hover:text-white transition-colors"
@@ -49,8 +72,10 @@ export function Footer() {
                   {COMPANY_DATA.contact.phone}
                 </a>
               </p>
-              <p className="flex items-start gap-2">
-                <span className="flex-shrink-0">✉️</span>
+              <p className="flex items-center gap-3">
+                <svg className="w-4 h-4 flex-shrink-0 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
                 <a
                   href={`mailto:${COMPANY_DATA.contact.email}`}
                   className="hover:text-white transition-colors"
@@ -58,8 +83,11 @@ export function Footer() {
                   {COMPANY_DATA.contact.email}
                 </a>
               </p>
-              <p className="flex items-start gap-2">
-                <span className="flex-shrink-0">📍</span>
+              <p className="flex items-start gap-3">
+                <svg className="w-4 h-4 flex-shrink-0 text-white/40 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                </svg>
                 <span>
                   {COMPANY_DATA.address.street}
                   <br />
@@ -71,8 +99,8 @@ export function Footer() {
 
           {/* Bloque 3: Horarios */}
           <div>
-            <h4 className="font-semibold mb-4 tracking-wide text-white">Horario</h4>
-            <div className="space-y-2 text-sm text-white/80">
+            <h4 className="text-xs tracking-[0.18em] uppercase text-white/50 mb-5 font-medium">Horario</h4>
+            <div className="space-y-2.5 text-sm text-white/70">
               <p>{COMPANY_DATA.businessHours.weekdays}</p>
               <p>{COMPANY_DATA.businessHours.saturday}</p>
               <p>{COMPANY_DATA.businessHours.sunday}</p>
@@ -81,7 +109,7 @@ export function Footer() {
         </div>
 
         {/* Bloque Legal */}
-        <div className="border-t border-white/20 pt-8 pb-6">
+        <div className="border-t border-white/10 pt-8 pb-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             {/* Links Legales */}
             <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
@@ -89,7 +117,7 @@ export function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-white/60 hover:text-white transition-colors"
+                  className="text-white/40 hover:text-white/70 transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -99,24 +127,23 @@ export function Footer() {
             {/* Botón Configurar Cookies */}
             <button
               onClick={() => {
-                // Resetear el consentimiento para mostrar el banner de nuevo
                 localStorage.removeItem("cookie-consent");
                 localStorage.removeItem("cookie-preferences");
                 window.location.reload();
               }}
-              className="text-sm text-white/60 hover:text-white transition-colors whitespace-nowrap"
+              className="text-sm text-white/40 hover:text-white/70 transition-colors whitespace-nowrap"
             >
-              ⚙️ Configurar cookies
+              Configurar cookies
             </button>
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-white/20 pt-6 text-center">
-          <p className="text-sm text-white/60">
-            &copy; {currentYear} {COMPANY_DATA.legalName} - CIF: {COMPANY_DATA.cif}
+        <div className="border-t border-white/10 pt-6 text-center">
+          <p className="text-xs text-white/40">
+            &copy; {currentYear} {COMPANY_DATA.legalName} &mdash; CIF: {COMPANY_DATA.cif}
           </p>
-          <p className="text-xs text-white/40 mt-2">Todos los derechos reservados.</p>
+          <p className="text-[10px] text-white/25 mt-2 tracking-wide">Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>
