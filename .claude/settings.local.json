@@ -80,7 +80,10 @@
       "Bash(findstr \"tab-btn\" \"%TEMP%\\\\page.html\")",
       "Bash(powershell -Command \"Get-ChildItem -Recurse -Path ''app/api/admin/menu'' -Filter ''*.ts'' | ForEach-Object { \\(Get-Content $_FullName\\) -replace \"\"revalidateTag\\\\\\(''menu'', ''default''\\\\\\)\"\", \"\"revalidateTag\\(''menu''\\)\"\" | Set-Content $_FullName }; echo ''Done''\")",
       "Bash(npm config get prefix)",
-      "Bash(setx PATH \"%PATH%;C:\\\\Users\\\\Guinda\\\\AppData\\\\Roaming\\\\npm\")"
+      "Bash(setx PATH \"%PATH%;C:\\\\Users\\\\Guinda\\\\AppData\\\\Roaming\\\\npm\")",
+      "Bash(git config --global user.name \"Manu\")",
+      "Bash(git config --global user.email \"mjc00005@gmail.com\")",
+      "Bash(npm install stripe)"
     ]
   }
 }
