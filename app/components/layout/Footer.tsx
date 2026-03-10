@@ -1,18 +1,31 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { COMPANY_DATA } from "../../data/company";
-import { SOCIAL_MEDIA, LEGAL_LINKS } from "../../data/social";
-import Link from "next/link";
+import { SOCIAL_MEDIA } from "../../data/social";
+import { Link } from "../../../i18n/routing";
 
 /**
- * FOOTER PREMIUM
+ * FOOTER PREMIUM — i18n
  *
  * Evolución: más limpio, más espaciado, tagline visible,
  * emojis reemplazados por SVGs, ornamento dorado.
+ * Ahora con soporte completo de internacionalización.
  */
+
+const LEGAL_ROUTES = [
+  { key: "avisoLegal", href: "/aviso-legal" as const },
+  { key: "privacidad", href: "/privacidad" as const },
+  { key: "cookies", href: "/cookies" as const },
+  { key: "cancelaciones", href: "/cancelaciones" as const },
+] as const;
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const t = useTranslations("footer");
+  const tLegal = useTranslations("legal");
+  const tCommon = useTranslations("common");
+  const tCompany = useTranslations("company");
 
   return (
     <footer id="contacto" className="py-16 md:py-24 bg-(--color-text-primary) text-white">
@@ -31,10 +44,10 @@ export function Footer() {
           <div className="md:col-span-2">
             <h3 className="text-2xl font-playfair font-semibold mb-2">{COMPANY_DATA.brandName}</h3>
             <p className="text-xs tracking-[0.15em] uppercase text-(--color-gold)/80 mb-4 font-medium">
-              Spa Privado en Hotel TRH Mijas
+              {t("tagline")}
             </p>
             <p className="text-sm text-white/70 leading-relaxed mb-6 max-w-sm">
-              {COMPANY_DATA.description}
+              {tCompany("description")}
             </p>
 
             {/* Redes Sociales */}
@@ -59,7 +72,9 @@ export function Footer() {
 
           {/* Bloque 2: Contacto */}
           <div>
-            <h4 className="text-xs tracking-[0.18em] uppercase text-white/50 mb-5 font-medium">Contacto</h4>
+            <h4 className="text-xs tracking-[0.18em] uppercase text-white/50 mb-5 font-medium">
+              {tCommon("labels.contact")}
+            </h4>
             <div className="space-y-3 text-sm text-white/70">
               <p className="flex items-center gap-3">
                 <svg className="w-4 h-4 flex-shrink-0 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -99,11 +114,13 @@ export function Footer() {
 
           {/* Bloque 3: Horarios */}
           <div>
-            <h4 className="text-xs tracking-[0.18em] uppercase text-white/50 mb-5 font-medium">Horario</h4>
+            <h4 className="text-xs tracking-[0.18em] uppercase text-white/50 mb-5 font-medium">
+              {tCommon("labels.schedule")}
+            </h4>
             <div className="space-y-2.5 text-sm text-white/70">
-              <p>{COMPANY_DATA.businessHours.weekdays}</p>
-              <p>{COMPANY_DATA.businessHours.saturday}</p>
-              <p>{COMPANY_DATA.businessHours.sunday}</p>
+              <p>{tCompany("businessHours.weekdays")}</p>
+              <p>{tCompany("businessHours.saturday")}</p>
+              <p>{tCompany("businessHours.sunday")}</p>
             </div>
           </div>
         </div>
@@ -113,13 +130,13 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             {/* Links Legales */}
             <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-              {LEGAL_LINKS.map((link) => (
+              {LEGAL_ROUTES.map((route) => (
                 <Link
-                  key={link.href}
-                  href={link.href}
+                  key={route.href}
+                  href={route.href}
                   className="text-white/40 hover:text-white/70 transition-colors"
                 >
-                  {link.label}
+                  {tLegal(`links.${route.key}`)}
                 </Link>
               ))}
             </nav>
@@ -133,7 +150,7 @@ export function Footer() {
               }}
               className="text-sm text-white/40 hover:text-white/70 transition-colors whitespace-nowrap"
             >
-              Configurar cookies
+              {tCommon("labels.configureCookies")}
             </button>
           </div>
         </div>
@@ -143,7 +160,9 @@ export function Footer() {
           <p className="text-xs text-white/40">
             &copy; {currentYear} {COMPANY_DATA.legalName} &mdash; CIF: {COMPANY_DATA.cif}
           </p>
-          <p className="text-[10px] text-white/25 mt-2 tracking-wide">Todos los derechos reservados.</p>
+          <p className="text-[10px] text-white/25 mt-2 tracking-wide">
+            {tCommon("labels.allRightsReserved")}
+          </p>
         </div>
       </div>
     </footer>

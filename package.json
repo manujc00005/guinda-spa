@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H 0.0.0.0",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
@@ -12,7 +12,10 @@
     "db:push": "prisma db push",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
-    "db:reset": "prisma migrate reset"
+    "db:reset": "prisma migrate reset",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:i18n": "vitest run __tests__/i18n"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -20,7 +23,13 @@
   "dependencies": {
     "@monei-js/node-sdk": "^1.7.10",
     "@prisma/client": "^6.1.0",
+    "@types/bcryptjs": "^2.4.6",
+    "autoprefixer": "^10.4.27",
+    "bcryptjs": "^3.0.3",
+    "jose": "^6.2.0",
     "next": "^16.1.6",
+    "next-intl": "^4.8.3",
+    "postcss": "^8.5.8",
     "puppeteer": "^24.35.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
@@ -34,8 +43,9 @@
     "eslint": "^10.0.0",
     "eslint-config-next": "^0.2.4",
     "prisma": "^6.1.0",
-    "tailwindcss": "^4",
+    "tailwindcss": "^4.2.1",
     "tsx": "^4.7.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.0.18"
   }
 }

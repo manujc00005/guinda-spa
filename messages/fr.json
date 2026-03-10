@@ -1,0 +1,766 @@
+{
+  "metadata": {
+    "title": "Guinda Wellness & Spa | Spa Privé à l'Hôtel TRH Mijas",
+    "titleTemplate": "%s | Guinda Wellness & Spa",
+    "description": "Spa privé à l'Hôtel TRH Mijas. Parcours exclusif avec jacuzzi, sauna et hammam. Massages thérapeutiques et expériences en couple avec champagne & chocolat. Dès 75 €.",
+    "ogTitle": "Guinda Wellness & Spa | Spa Privé à l'Hôtel TRH Mijas",
+    "ogDescription": "Votre parcours spa privé sur la Costa del Sol. Jacuzzi, sauna et hammam rien que pour vous. Expériences en couple avec champagne & chocolat dès 160 €.",
+    "keywords": [
+      "spa privé Mijas",
+      "spa Hôtel TRH Mijas",
+      "parcours spa privé",
+      "massages Mijas",
+      "spa couple Costa del Sol",
+      "massage relaxant Mijas",
+      "jacuzzi privé",
+      "sauna Mijas",
+      "soins visage luxe",
+      "spa luxe Costa del Sol",
+      "coffrets cadeaux spa",
+      "expérience spa couple Mijas",
+      "spa boutique Mijas"
+    ]
+  },
+  "common": {
+    "cta": {
+      "bookNow": "Réserver maintenant",
+      "bookSpaAndMassage": "Réserver Spa + Massage",
+      "coupleExperience": "Expérience en Couple",
+      "consult": "Nous consulter",
+      "whatsappConsult": "Nous écrire sur WhatsApp",
+      "contactUs": "Contactez-nous directement →",
+      "viewFaqs": "Consulter la FAQ",
+      "goBack": "Retour à l'accueil"
+    },
+    "labels": {
+      "businessHours": "Horaires d'ouverture",
+      "contact": "Contact",
+      "schedule": "Horaires",
+      "explore": "Explorer",
+      "discover": "Découvrir",
+      "allRightsReserved": "Tous droits réservés.",
+      "configureCookies": "Paramétrer les cookies",
+      "signature": "Signature",
+      "yourRitualIncludes": "Votre rituel comprend",
+      "everyVisit": "À chaque visite",
+      "completeExperience": "Expérience complète",
+      "required": "Obligatoires",
+      "moreInfo": "En savoir plus",
+      "usageExamples": "Exemples d'utilisation :",
+      "viewMore": "Voir plus de détails",
+      "viewLess": "Voir moins",
+      "alsoWriteUs": "Vous pouvez également nous écrire à"
+    },
+    "aria": {
+      "openMenu": "Ouvrir le menu",
+      "closeMenu": "Fermer le menu",
+      "closeModal": "Fermer la fenêtre",
+      "goToHome": "{brandName} - Retour à l'accueil",
+      "whatsappConsult": "Nous consulter via WhatsApp",
+      "followInstagram": "Suivez-nous sur Instagram",
+      "followTiktok": "Suivez-nous sur TikTok",
+      "followFacebook": "Suivez-nous sur Facebook",
+      "followLinkedin": "Suivez-nous sur LinkedIn",
+      "followTwitter": "Suivez-nous sur Twitter",
+      "followYoutube": "Suivez-nous sur YouTube",
+      "contactWhatsapp": "Contactez-nous via WhatsApp",
+      "whatsappSend": "Envoyer une demande via WhatsApp",
+      "toggleCookie": "{action} {category}"
+    }
+  },
+  "navigation": {
+    "items": {
+      "experiencias": "Expériences",
+      "servicios": "Rituels",
+      "packs": "Coffrets",
+      "opiniones": "Avis",
+      "faq": "FAQ",
+      "reservar": "Réserver"
+    },
+    "cta": "Réserver maintenant"
+  },
+  "hero": {
+    "eyebrow": "Spa Privé à l'Hôtel TRH Mijas",
+    "title": "Votre parcours spa privé\nsur la Costa del Sol",
+    "description": "Jacuzzi, sauna et hammam rien que pour vous. Massages thérapeutiques, rituels d'exception et expériences en couple avec champagne & chocolat.",
+    "cta": {
+      "primary": "Réserver Spa + Massage",
+      "secondary": "Expérience en Couple"
+    },
+    "trust": {
+      "hotel": "Hôtel TRH Mijas",
+      "rating": "4.9★ sur Google",
+      "private": "Spa 100 % privé"
+    },
+    "imageAlt": "Parcours spa privé avec jacuzzi à l'Hôtel TRH Mijas"
+  },
+  "experiencias": {
+    "header": {
+      "eyebrow": "Expériences d'exception",
+      "title": "Conçues pour marquer les esprits",
+      "description": "Choisissez votre parenthèse d'évasion. Chaque expérience se vit dans une intimité absolue, rien que pour vous ou votre partenaire."
+    },
+    "items": {
+      "pareja": {
+        "title": "Rituel en Couple",
+        "subtitle": "L'expérience la plus précieuse",
+        "description": "Parcours spa privé pour deux avec massages simultanés en cabine privée. Accueil avec champagne et chocolats fins artisanaux.",
+        "priceContext": "Rituel privé pour deux",
+        "detail": "Rituel privé pour deux · 90 minutes",
+        "badge": "Le plus demandé",
+        "cta": "Réserver en couple",
+        "imageAlt": "Couple profitant d'un parcours spa privé dans une lumière tamisée avec champagne"
+      },
+      "spaMasaje": {
+        "title": "Spa + Massage",
+        "subtitle": "Notre expérience emblématique",
+        "description": "Parcours spa privé de 60 minutes suivi d'un massage relaxant de 30 minutes. Une déconnexion totale en un seul rituel.",
+        "priceContext": "Expérience complète",
+        "detail": "Expérience complète · 90 minutes",
+        "badge": "Expérience phare",
+        "cta": "Réserver spa + massage",
+        "imageAlt": "Massage relaxant professionnel aux huiles avec jacuzzi en arrière-plan"
+      },
+      "circuito": {
+        "title": "Parcours Spa Privé",
+        "subtitle": "60 minutes de sérénité absolue",
+        "description": "Jacuzzi à hydrojets, sauna finlandais et hammam. L'ensemble de l'espace exclusivement réservé pour vous, sans partage.",
+        "priceContext": "Séance exclusive",
+        "detail": "Séance exclusive · 60 minutes",
+        "badge": "",
+        "cta": "Réserver le parcours",
+        "imageAlt": "Parcours spa privé avec vapeur, jacuzzi et ambiance chaleureuse exclusive"
+      }
+    },
+    "socialProof": {
+      "ratingLabel": "sur Google",
+      "statLabel": "couples accueillis",
+      "badge": "Spa 100 % privé"
+    }
+  },
+  "diferenciadores": {
+    "header": {
+      "eyebrow": "L'écrin",
+      "title": "Là où le temps\nn'appartient qu'à vous"
+    },
+    "intro": "Un parcours spa privé au sein de l'Hôtel TRH Mijas. Sans bruit, sans hâte, sans personne d'autre.",
+    "items": {
+      "privacidad": {
+        "title": "Intimité absolue",
+        "description": "Le parcours vous est exclusivement réservé pendant toute la séance. Aucun autre client, aucun créneau partagé. Seul le murmure de l'eau et le silence que vous avez choisi."
+      },
+      "bienvenida": {
+        "title": "Champagne et chocolats à votre arrivée",
+        "description": "Les expériences en couple débutent par un accueil raffiné. Champagne frais, chocolats fins artisanaux et la sérénité de savoir que vous n'avez plus rien à faire."
+      },
+      "hotel": {
+        "title": "Au cœur d'un hôtel boutique",
+        "description": "L'infrastructure d'un hôtel avec l'intimité d'un spa privé. Parking, réception, vestiaires équipés. Tout est prévu avant même votre arrivée."
+      },
+      "desconexion": {
+        "title": "Arrivez, déconnectez",
+        "description": "Peignoir, serviettes, chaussons. Vous n'avez rien à apporter ni à prévoir. Dès le seuil franchi, il ne vous reste qu'une chose à faire : vous laisser choyer."
+      }
+    },
+    "cierre": "Chaque détail a été pensé pour que votre seule décision soit le moment de votre venue.",
+    "badge": "Hôtel TRH Mijas · Costa del Sol",
+    "imageAlt": "Intérieur du spa privé Guinda Wellness à l'Hôtel TRH Mijas, jacuzzi illuminé et ambiance chaleureuse"
+  },
+  "servicios": {
+    "header": {
+      "eyebrow": "L'expérience",
+      "title": "Rituels & expériences",
+      "description": "Chaque rituel a été conçu pour éveiller les sens, libérer les tensions et vous ramener à un état de calme profond. Nous ne choisissons pas des techniques : nous composons des instants."
+    },
+    "categories": {
+      "corporales": {
+        "title": "Rituels corporels",
+        "description": "Des mains expertes, des huiles essentielles sélectionnées et un espace conçu pour la déconnexion. Chaque rituel débute par une consultation sensorielle afin d'adapter l'expérience à ce dont votre corps a besoin aujourd'hui.",
+        "items": {
+          "serenidad": {
+            "title": "Rituel Sérénité",
+            "subtitle": "Enveloppement de calme",
+            "description": "Un voyage sensoriel d'une profonde quiétude qui dissout les tensions par des mouvements lents, enveloppants et rythmés. La pression s'adapte à votre corps, accompagnée d'une aromathérapie personnalisée qui approfondit chaque respiration.",
+            "includes": [
+              "Consultation sensorielle d'accueil",
+              "Aromathérapie personnalisée",
+              "Infusion wellness de clôture"
+            ]
+          },
+          "alivioProfundo": {
+            "title": "Rituel Détente Profonde",
+            "subtitle": "Libération musculaire",
+            "description": "Une technique précise et ferme qui travaille les couches les plus profondes de tension. Idéal pour celles et ceux qui portent le poids du quotidien dans les épaules, le dos ou les cervicales. Libère, restaure et redonne la mobilité.",
+            "includes": [
+              "Diagnostic postural préalable",
+              "Huiles thérapeutiques chauffantes",
+              "Compresse chaude localisée"
+            ]
+          },
+          "piedrasVolcanicas": {
+            "title": "Rituel Pierres Volcaniques",
+            "subtitle": "Chaleur ancestrale",
+            "description": "Des pierres de basalte sélectionnées transmettent une chaleur profonde et constante, dénouant tensions et contractures tout en rééquilibrant l'énergie du corps. Une expérience qui reconnecte à la terre.",
+            "includes": [
+              "Sélection artisanale de pierres",
+              "Huile essentielle de lavande volcanique",
+              "Rituel de clôture à la pierre froide"
+            ]
+          },
+          "aloha": {
+            "title": "Rituel Aloha",
+            "subtitle": "Tradition hawaïenne",
+            "description": "Inspiré de la tradition Lomi Lomi d'Hawaï : des mouvements longs, fluides et profonds qui imitent le ressac de l'océan. Une danse sur le corps qui libère les émotions et restaure l'équilibre intérieur.",
+            "includes": [
+              "Huile de kukui hawaïenne",
+              "Aromathérapie tropicale",
+              "Ambiance sonore océanique"
+            ]
+          }
+        }
+      },
+      "rostro": {
+        "title": "Rituels visage",
+        "description": "Des protocoles faciaux qui vont au-delà de la cosmétique. Chaque rituel allie une technique manuelle experte à des actifs hautement concentrés pour révéler la meilleure version de votre peau.",
+        "items": {
+          "luminosidad": {
+            "title": "Rituel Luminosité",
+            "subtitle": "Éveil du teint",
+            "description": "Un protocole de rajeunissement avancé qui nourrit, hydrate et redéfinit. Vitamines pures et actifs concentrés agissent en synergie pour redonner fermeté, éclat et une luminosité qui rayonne de l'intérieur.",
+            "includes": [
+              "Double nettoyage à l'huile botanique",
+              "Masque d'actifs purs",
+              "Massage facial drainant"
+            ]
+          },
+          "kobido": {
+            "title": "Rituel Kobido",
+            "subtitle": "Lifting ancestral japonais",
+            "description": "Une technique millénaire transmise de maître à élève depuis des générations. Plus de 47 mouvements précis qui sculptent, redéfinissent l'ovale et restituent au visage son expression la plus naturelle et lumineuse.",
+            "includes": [
+              "Nettoyage rituel à l'eau de riz",
+              "47 techniques manuelles de lifting",
+              "Sérum de finition au thé vert japonais"
+            ]
+          },
+          "resplandor": {
+            "title": "Rituel Éclat",
+            "subtitle": "Luminosité intensive",
+            "description": "Le soin le plus complet pour les peaux en quête d'un véritable renouveau. Vitamines hautement concentrées, collagène actif et un protocole de nutrition profonde qui transforment la texture et le teint.",
+            "includes": [
+              "Peeling enzymatique doux",
+              "Ampoules concentrées personnalisées",
+              "Masque au collagène bio-actif"
+            ]
+          }
+        }
+      },
+      "experiencias": {
+        "title": "Expériences signature",
+        "description": "Des rituels complets mêlant plusieurs techniques en une expérience immersive. Conçus pour celles et ceux qui recherchent bien plus qu'un soin : un instant qui transforme.",
+        "items": {
+          "pacificSpirit": {
+            "title": "Pacific Spirit",
+            "subtitle": "Mer & sérénité",
+            "description": "Un voyage sensoriel inspiré par la puissance et la quiétude de l'océan. Débute par une exfoliation aux sels marins et algues, se poursuit avec un enveloppement reminéralisant et s'achève par un massage restaurateur de longue durée.",
+            "includes": [
+              "Exfoliation aux sels du Pacifique",
+              "Enveloppement d'algues reminéralisantes",
+              "Massage restaurateur complet",
+              "Infusion d'algues et menthe"
+            ]
+          },
+          "experienciaGuinda": {
+            "title": "L'Expérience Guinda",
+            "subtitle": "Notre rituel signature",
+            "description": "Ce que Guinda offre de plus exclusif en une seule expérience. Un parcours de près de trois heures intégrant circuit thermal privé, rituel corporel complet, soin visage personnalisé et soin des mains et des pieds. Accueil avec champagne et chocolats fins artisanaux.",
+            "includes": [
+              "Accueil avec champagne et chocolats fins artisanaux",
+              "Circuit thermal privé",
+              "Rituel corporel complet au choix",
+              "Soin visage personnalisé",
+              "Soin spa des mains et des pieds",
+              "Peignoir, chaussons et commodités premium",
+              "Infusion et fruits frais de clôture"
+            ]
+          }
+        }
+      }
+    },
+    "addedValue": [
+      "Tous les rituels comprennent un accueil avec infusion artisanale",
+      "Produits naturels de haute cosmétique sélectionnés par notre équipe",
+      "Cabine privée avec ambiance personnalisée : lumière, température et parfum",
+      "Sans hâte. Chaque séance inclut un temps de transition avant et après"
+    ],
+    "cta": {
+      "text": "Réservez votre rituel",
+      "subtext": "Votre moment commence par une décision"
+    },
+    "tabs": {
+      "corporales": { "label": "Rituels Corps",     "short": "Corps"        },
+      "faciales":   { "label": "Rituels Visage",    "short": "Visage"       },
+      "spa":        { "label": "Expériences Spa",   "short": "Expériences"  },
+      "pareja":     { "label": "En Couple",         "short": "Couple"       },
+      "belleza":    { "label": "Beauté",            "short": "Beauté"       }
+    },
+    "secciones": {
+      "circuitoSpa": {
+        "intro": "Votre propre sanctuaire privé. Jacuzzi, sauna finlandais, hammam et douches sensorielles. Le point de départ idéal avant tout rituel."
+      },
+      "masajesTerapeuticos": {
+        "intro": "Précision technique et sensibilité humaine. Chaque séance adapte la pression, les zones et le rythme à ce dont votre corps a besoin aujourd'hui."
+      },
+      "masajesMundo": {
+        "intro": "Techniques millénaires de quatre continents, réunies dans une seule cabine. Chaque massage est un voyage avec origine, intention et retour."
+      },
+      "exfoliaciones": {
+        "intro": "Renouvelez, détoxifiez et nourrissez. Des rituels pour la peau qui agissent en profondeur, laissant une texture que l'on voit et que l'on ressent."
+      },
+      "faciales": {
+        "intro": "Actifs haute concentration et protocole expert. Des résultats visibles dès la première séance."
+      },
+      "corporales": {
+        "intro": "Sculptez, drainer et tonifiez. Efficacité cosmétique et bien-être profond en une seule séance."
+      },
+      "manosPies": {
+        "intro": "Le détail qui complète l'expérience spa. Soins professionnels, finitions longue durée et extras qui font la différence."
+      },
+      "peluqueria": {
+        "intro": "Beauté naturelle et durable. Nous travaillons exclusivement avec des produits respectueux des cheveux et de l'environnement."
+      },
+      "wellnessPareja": {
+        "intro": "Tous les traitements du spa disponibles en privé. Conçus pour partager, se souvenir et recommencer."
+      },
+      "bonos": {
+        "intro": "Un cadeau qui dure plus qu'un jour. Choisissez le service, nous préparons le détail."
+      }
+    }
+  },
+  "packs": {
+    "header": {
+      "eyebrow": "Offrir le bien-être",
+      "title": "Coffrets & cartes cadeaux",
+      "description": "Le cadeau dont on se souvient. Expériences complètes, présentation raffinée et validité de 12 mois."
+    },
+    "items": {
+      "diaCompleto": {
+        "title": "Expérience Journée Complète",
+        "description": "Parcours spa privé + Rituel du Monde + Soin visage + Spa mains et pieds. L'expérience la plus complète de Guinda.",
+        "detail": "4 heures environ",
+        "cta": "Réserver l'expérience"
+      },
+      "parejaPremium": {
+        "title": "Coffret Couple Premium",
+        "description": "Parcours spa privé pour deux + Massages relaxants simultanés en cabine privée. Accueil champagne et chocolats fins.",
+        "detail": "2 personnes · 90 min",
+        "cta": "Réserver en couple"
+      },
+      "bonoRegalo": {
+        "title": "Carte Cadeau Personnalisée",
+        "description": "Choisissez le montant, nous composons une expérience unique. Présentation soignée, valable 12 mois. L'attention parfaite.",
+        "detail": "Personnalisable",
+        "cta": "Nous consulter"
+      }
+    }
+  },
+  "ctaFinal": {
+    "eyebrow": "Votre moment, c'est maintenant",
+    "title": "Offrez-vous le luxe de la sérénité",
+    "description": "Réservez votre expérience dans notre spa privé. Sans hâte, sans partage, uniquement du bien-être.",
+    "ctaPrimary": "Réserver maintenant",
+    "ctaSecondary": "Nous écrire sur WhatsApp"
+  },
+  "opiniones": {
+    "eyebrow": "Ce que disent nos clients",
+    "header": {
+      "title": "Avis authentiques sur Google",
+      "subtitle": "Ce qui revient le plus souvent : sérénité, propreté et un accueil irréprochable."
+    },
+    "emptyState": "Aucun avis chargé pour le moment."
+  },
+  "about": {
+    "kicker": "À propos",
+    "title": "Le bien-être d'exception, sans hâte et avec intention.",
+    "subtitle": "Nous créons des expériences alliant parcours spa privé et massage thérapeutique pour que vous repartiez mieux que vous n'êtes arrivé : plus léger, plus serein, l'énergie retrouvée.",
+    "paragraphs": [
+      "Chez Guinda Wellness & Spa, nous croyons que le vrai luxe, c'est le temps : une attention soignée, des espaces silencieux et des soins exécutés avec excellence.",
+      "Nous travaillons selon une philosophie claire : moins de stimulation, plus de résultats. Des rituels conçus pour réduire les tensions, améliorer la circulation et vous permettre de véritablement déconnecter.",
+      "Si c'est votre première visite, nous vous guidons selon votre objectif (détendre, soulager, récupérer) afin que vous choisissiez le rituel idéal en toute confiance."
+    ],
+    "primaryCta": "Réserver Spa + Massage",
+    "secondaryCta": "Consulter la FAQ",
+    "card": {
+      "kicker": "Notre approche",
+      "title": "Sérénité, technique et souci du détail.",
+      "badge": "Accompagnement personnalisé"
+    },
+    "highlights": {
+      "circuito": {
+        "title": "Parcours privé",
+        "description": "Des séances en toute intimité pour un repos authentique, sans interruption."
+      },
+      "masaje": {
+        "title": "Massage sur mesure",
+        "description": "Une technique adaptée à votre objectif : relaxation, décharge ou récupération."
+      },
+      "rituales": {
+        "title": "Rituels d'exception",
+        "description": "Des expériences complètes pour réinitialiser le corps et l'esprit en harmonie."
+      },
+      "criterio": {
+        "title": "Expertise professionnelle",
+        "description": "Nous vous guidons dans votre choix pour que votre temps et votre investissement soient pleinement valorisés."
+      }
+    },
+    "signature": {
+      "title": "Notre exigence :",
+      "text": "un cadre impeccable, des mains expertes et des résultats visibles dès la première visite."
+    },
+    "trust": {
+      "circuito": {
+        "value": "60'",
+        "label": "Parcours privé"
+      },
+      "opiniones": {
+        "value": "4.9★",
+        "label": "Avis clients"
+      },
+      "packs": {
+        "value": "Top",
+        "label": "Coffrets cadeaux"
+      }
+    }
+  },
+  "spaMasaje": {
+    "header": {
+      "eyebrow": "Expérience Phare",
+      "title": "Spa + Massage",
+      "description": "L'alliance parfaite : parcours spa privé de 60 minutes + massage relaxant de 30 minutes"
+    },
+    "benefits": {
+      "relax": {
+        "title": "Détente absolue",
+        "description": "Déconnexion profonde dans un parcours privé"
+      },
+      "masaje": {
+        "title": "Massage personnalisé",
+        "description": "Adapté à vos besoins"
+      },
+      "privacidad": {
+        "title": "Intimité totale",
+        "description": "Rien que pour vous ou votre partenaire"
+      }
+    },
+    "price": {
+      "detail": "90 minutes au total · 1 personne",
+      "includes": "Inclus : Jacuzzi + Sauna + Hammam + Massage 30 min"
+    }
+  },
+  "reservar": {
+    "header": {
+      "eyebrow": "Simplicité",
+      "title": "Comment réserver",
+      "description": "Réservez votre expérience en 3 étapes simples"
+    },
+    "steps": {
+      "1": {
+        "title": "Choisissez votre rituel",
+        "description": "Sélectionnez le soin ou le coffret de votre choix"
+      },
+      "2": {
+        "title": "Contactez-nous",
+        "description": "Par téléphone, e-mail ou WhatsApp"
+      },
+      "3": {
+        "title": "Savourez",
+        "description": "Arrivez 10 minutes en avance et laissez-vous porter"
+      }
+    },
+    "contactTitle": "Contactez-nous",
+    "whatsappLabel": "💬 WhatsApp"
+  },
+  "faq": {
+    "header": {
+      "eyebrow": "Questions fréquentes",
+      "title": "Foire aux questions"
+    },
+    "contact": {
+      "title": "Une question ?",
+      "description": "Notre équipe est à votre disposition pour répondre à vos interrogations de manière rapide et personnalisée. Écrivez-nous sur WhatsApp et nous vous répondons en quelques minutes.",
+      "whatsappLabel": "Écrire sur WhatsApp",
+      "hoursPrefix": "Horaires d'ouverture :",
+      "bottomQuestion": "Vous ne trouvez pas ce que vous cherchez ?",
+      "bottomCta": "Contactez-nous directement →"
+    },
+    "questions": {
+      "q1": {
+        "question": "Combien de temps à l'avance dois-je réserver ?",
+        "answer": "Nous recommandons de réserver au moins 48 heures à l'avance afin de garantir la disponibilité, bien que nous fassions notre possible pour nous adapter à votre emploi du temps."
+      },
+      "q2": {
+        "question": "Que dois-je apporter au spa ?",
+        "answer": "Nous fournissons serviettes, peignoir et chaussons. Il vous suffit d'apporter votre maillot de bain et l'envie de vous détendre."
+      },
+      "q3": {
+        "question": "Puis-je annuler ou modifier ma réservation ?",
+        "answer": "Oui, vous pouvez annuler ou modifier votre réservation jusqu'à 24 heures avant la date prévue, sans frais supplémentaires. Contactez-nous par téléphone ou WhatsApp."
+      },
+      "q4": {
+        "question": "Les cartes cadeaux ont-elles une date d'expiration ?",
+        "answer": "Les cartes cadeaux sont valables 12 mois à compter de la date d'achat. Elles sont transférables et échangeables contre tout service de notre spa."
+      },
+      "q5": {
+        "question": "Le parcours spa est-il privé ?",
+        "answer": "Oui, tous nos parcours spa sont 100 % privés. L'espace vous est exclusivement réservé, à vous ou à votre accompagnant, pendant les 60 minutes."
+      },
+      "q6": {
+        "question": "Y a-t-il un parking disponible ?",
+        "answer": "Nous disposons d'un parking gratuit réservé à nos clients. Les informations détaillées vous seront communiquées lors de la confirmation de votre réservation."
+      }
+    }
+  },
+  "testimonios": {
+    "header": {
+      "eyebrow": "Témoignages",
+      "title": "Ce que disent nos clients"
+    }
+  },
+  "galeria": {
+    "header": {
+      "eyebrow": "Notre écrin",
+      "title": "Une atmosphère de sérénité"
+    },
+    "imageAlts": {
+      "masajes": "Cabine de massage",
+      "jacuzzi": "Jacuzzi",
+      "relajacion": "Espace détente",
+      "sauna": "Sauna",
+      "detalles": "Détails du spa"
+    }
+  },
+  "footer": {
+    "tagline": "Spa Privé à l'Hôtel TRH Mijas"
+  },
+  "cookies": {
+    "banner": {
+      "title": "Nous utilisons des cookies",
+      "description": "Nous utilisons des cookies propres et de tiers pour améliorer nos services et vous proposer des publicités adaptées à vos préférences grâce à l'analyse de vos habitudes de navigation.",
+      "reject": "Refuser",
+      "configure": "Paramétrer",
+      "acceptAll": "Tout accepter"
+    },
+    "modal": {
+      "title": "Paramétrage des cookies",
+      "activeCount": "{active} sur {total} catégories actives",
+      "tabs": {
+        "all": "Toutes"
+      },
+      "rejectAll": "Tout refuser",
+      "saveSelection": "Enregistrer la sélection",
+      "acceptAll": "Tout accepter",
+      "categories": {
+        "necessary": {
+          "title": "Cookies strictement nécessaires",
+          "description": "Ces cookies sont indispensables au fonctionnement de base du site web. Ils ne peuvent pas être désactivés car ils permettent des fonctionnalités essentielles telles que la navigation entre les pages et l'accès aux zones sécurisées.",
+          "examples": [
+            "Session utilisateur",
+            "Langue sélectionnée",
+            "Paramétrage des cookies"
+          ]
+        },
+        "analytics": {
+          "title": "Cookies analytiques",
+          "description": "Ces cookies nous permettent d'analyser l'utilisation du site web afin de mesurer et d'améliorer ses performances. Ils recueillent des informations de manière anonyme sur la façon dont les visiteurs utilisent le site.",
+          "examples": [
+            "Google Analytics",
+            "Statistiques de visites",
+            "Pages les plus consultées"
+          ]
+        },
+        "marketing": {
+          "title": "Cookies marketing",
+          "description": "Ces cookies sont utilisés pour diffuser des annonces pertinentes et mesurer l'efficacité de nos campagnes publicitaires. Ils peuvent être déposés par nos partenaires publicitaires.",
+          "examples": [
+            "Facebook Pixel",
+            "Google Ads",
+            "Remarketing"
+          ]
+        },
+        "personalization": {
+          "title": "Cookies de personnalisation",
+          "description": "Ces cookies permettent de mémoriser vos préférences et de personnaliser votre expérience de navigation, comme votre localisation ou la langue de votre choix.",
+          "examples": [
+            "Préférences d'affichage",
+            "Contenu personnalisé",
+            "Recommandations"
+          ]
+        }
+      }
+    }
+  },
+  "social": {
+    "ariaLabels": {
+      "instagram": "Suivez-nous sur Instagram",
+      "tiktok": "Suivez-nous sur TikTok",
+      "facebook": "Suivez-nous sur Facebook",
+      "linkedin": "Suivez-nous sur LinkedIn",
+      "twitter": "Suivez-nous sur Twitter",
+      "youtube": "Suivez-nous sur YouTube",
+      "whatsapp": "Contactez-nous via WhatsApp"
+    },
+    "whatsappMessage": "Bonjour, je souhaiterais obtenir des informations sur vos prestations spa. Pourriez-vous m'en dire davantage ?",
+    "whatsappLabel": "Écrire sur WhatsApp"
+  },
+  "legal": {
+    "links": {
+      "avisoLegal": "Mentions Légales",
+      "privacidad": "Politique de Confidentialité",
+      "cookies": "Politique de Cookies",
+      "cancelaciones": "Annulations et Remboursements"
+    },
+    "backToHome": "← Retour à l'accueil",
+    "avisoLegal": {
+      "title": "Mentions Légales",
+      "lastUpdated": "Dernière mise à jour : 19 janvier 2026",
+      "sections": {
+        "s1": {
+          "title": "1. Identification du Responsable",
+          "content": "Conformément à l'article 10 de la Loi 34/2002, du 11 juillet, relative aux Services de la Société de l'Information et du Commerce Électronique (LSSI-CE), les données du titulaire de ce site web sont les suivantes :\n\n**Raison sociale :** {legalName}\n**NIF/CIF :** {cif}\n**Siège social :** {address}\n**Adresse e-mail :** {email}\n**Téléphone :** {phone}"
+        },
+        "s2": {
+          "title": "2. Objet",
+          "content": "Le présent site web a pour objet de fournir des informations sur les services de spa, massages et soins de bien-être proposés par {brandName}, ainsi que de faciliter leur réservation."
+        },
+        "s3": {
+          "title": "3. Conditions d'utilisation",
+          "content": "L'accès et l'utilisation de ce site web impliquent l'acceptation expresse des présentes conditions d'utilisation. L'utilisateur s'engage à faire un usage approprié des contenus et services que {brandName} propose à travers son site web et à ne pas les utiliser pour :\n\n- Se livrer à des activités illicites, illégales ou contraires à la bonne foi et à l'ordre public.\n- Diffuser des contenus ou de la propagande à caractère raciste, xénophobe, pornographique illégal, faisant l'apologie du terrorisme ou portant atteinte aux droits de l'homme.\n- Provoquer des dommages aux systèmes physiques et logiques de {brandName}, de ses fournisseurs ou de tiers."
+        },
+        "s4": {
+          "title": "4. Propriété intellectuelle et industrielle",
+          "content": "Tous les contenus de ce site web, y compris, de manière indicative mais non limitative, les textes, photographies, graphiques, images, icônes, technologies, logiciels, ainsi que sa conception graphique et ses codes source, constituent une œuvre dont la propriété appartient à {legalName}, sans qu'aucun droit d'exploitation ne puisse être considéré comme cédé à l'utilisateur au-delà de ce qui est strictement nécessaire à l'utilisation correcte du site.\n\nSont expressément interdites la reproduction, la distribution et la communication publique, y compris la mise à disposition, de tout ou partie des contenus de ce site web, à des fins commerciales, sur tout support et par tout moyen technique, sans l'autorisation de {legalName}."
+        },
+        "s5": {
+          "title": "5. Responsabilité",
+          "content": "{legalName} ne saurait être tenu responsable des dommages de quelque nature que ce soit pouvant résulter de :\n\n- L'indisponibilité, la maintenance et le fonctionnement effectif du site ou de ses services et contenus.\n- L'existence de virus, programmes malveillants ou nuisibles dans les contenus.\n- L'utilisation illicite, négligente, frauduleuse ou contraire aux présentes Conditions Générales.\n- Le défaut de licéité, de qualité, de fiabilité, d'utilité et de disponibilité des services fournis par des tiers et mis à disposition des utilisateurs sur le site web.\n\n{legalName} se réserve le droit de suspendre temporairement, et sans préavis, l'accessibilité au site web pour des opérations de maintenance, réparation, mise à jour ou amélioration."
+        },
+        "s6": {
+          "title": "6. Droit applicable et juridiction",
+          "content": "Les présentes conditions sont régies par le droit espagnol. Pour la résolution de tout litige découlant de l'utilisation de ce site web, les parties se soumettent aux Tribunaux de {city}, en renonçant expressément à tout autre for qui pourrait leur correspondre."
+        }
+      }
+    },
+    "privacidad": {
+      "title": "Politique de Confidentialité",
+      "lastUpdated": "Dernière mise à jour : 19 janvier 2026",
+      "sections": {
+        "s1": {
+          "title": "1. Responsable du traitement",
+          "content": "Conformément au Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016 (RGPD) et à la Loi Organique 3/2018, du 5 décembre, relative à la Protection des Données Personnelles et à la garantie des droits numériques (LOPDGDD), nous vous informons que :\n\n**Responsable :** {legalName}\n**NIF/CIF :** {cif}\n**Siège :** {address}\n**Adresse e-mail :** {email}\n**Téléphone :** {phone}"
+        },
+        "s2": {
+          "title": "2. Données collectées",
+          "content": "Nous pouvons collecter et traiter les catégories de données personnelles suivantes :\n\n**Données d'identification :** nom, prénoms, DNI/NIE.\n**Données de contact :** adresse e-mail, numéro de téléphone, adresse postale.\n**Données de navigation :** adresse IP, cookies, données de navigation et de géolocalisation.\n**Données de transactions :** informations relatives aux réservations, paiements et services souscrits."
+        },
+        "s3": {
+          "title": "3. Finalité du traitement",
+          "content": "Les données personnelles que vous nous communiquez seront traitées aux fins suivantes :\n\n- **Gestion des réservations :** traiter et gérer les réservations de services de spa et de soins.\n- **Communications commerciales :** envoi d'informations sur nos promotions, nouveautés et services (avec votre consentement préalable).\n- **Amélioration du service :** analyse statistique de l'utilisation du site web et personnalisation de l'expérience.\n- **Respect des obligations légales :** satisfaire aux obligations légales applicables (facturation, comptabilité, etc.)."
+        },
+        "s4": {
+          "title": "4. Base juridique",
+          "content": "La base juridique du traitement de vos données personnelles est la suivante :\n\n- **Exécution d'un contrat :** lorsque vous effectuez une réservation ou souscrivez à nos services.\n- **Consentement explicite :** pour l'envoi de communications commerciales.\n- **Intérêt légitime :** pour l'amélioration de nos services et l'analyse statistique.\n- **Obligation légale :** pour satisfaire aux obligations fiscales et comptables."
+        },
+        "s5": {
+          "title": "5. Conservation des données",
+          "content": "Les données personnelles seront conservées pendant la durée nécessaire à l'accomplissement de la finalité pour laquelle elles ont été collectées et pour déterminer les éventuelles responsabilités qui pourraient en découler. Elles seront ensuite conservées, bloquées, pendant les délais légaux de prescription des responsabilités."
+        },
+        "s6": {
+          "title": "6. Destinataires des données",
+          "content": "Vos données personnelles ne seront pas communiquées à des tiers, sauf obligation légale. Elles pourront être transmises à :\n\n- Des prestataires de services technologiques (hébergement, marketing par e-mail, passerelles de paiement).\n- Des administrations publiques lorsqu'une obligation légale l'exige.\n\nTous les prestataires respectent le RGPD et garantissent des mesures de sécurité adéquates."
+        },
+        "s7": {
+          "title": "7. Droits de l'utilisateur",
+          "content": "Vous pouvez exercer les droits suivants concernant vos données personnelles :\n\n- **Droit d'accès :** connaître les données personnelles que nous détenons vous concernant.\n- **Droit de rectification :** corriger des données inexactes ou incomplètes.\n- **Droit à l'effacement :** demander la suppression de vos données (« droit à l'oubli »).\n- **Droit d'opposition :** vous opposer au traitement de vos données.\n- **Droit à la limitation :** demander la limitation du traitement.\n- **Droit à la portabilité :** recevoir vos données dans un format structuré.\n\nPour exercer ces droits, vous pouvez envoyer un e-mail à {email} en joignant une copie de votre pièce d'identité (DNI/NIE).\n\nVous disposez également du droit d'introduire une réclamation auprès de l'Agence Espagnole de Protection des Données (www.aepd.es)."
+        },
+        "s8": {
+          "title": "8. Mesures de sécurité",
+          "content": "{legalName} a adopté les mesures techniques et organisationnelles nécessaires pour garantir la sécurité des données personnelles et prévenir leur altération, perte, traitement ou accès non autorisé, compte tenu de l'état de la technologie, de la nature des données stockées et des risques auxquels elles sont exposées."
+        }
+      }
+    },
+    "cookies": {
+      "title": "Politique de Cookies",
+      "lastUpdated": "Dernière mise à jour : 19 janvier 2026",
+      "sections": {
+        "s1": {
+          "title": "1. Qu'est-ce qu'un cookie ?",
+          "content": "Un cookie est un petit fichier texte qu'un site web enregistre sur votre ordinateur, tablette ou téléphone mobile lorsque vous le consultez. Les cookies permettent au site de mémoriser vos actions et préférences pendant une période donnée, afin que vous n'ayez pas à les reconfigurer à chaque visite ou lorsque vous naviguez d'une page à l'autre."
+        },
+        "s2": {
+          "title": "2. Types de cookies utilisés",
+          "content": "**Cookies techniques (strictement nécessaires) :** Ils sont indispensables au fonctionnement du site web et ne peuvent être désactivés. Ils permettent la navigation et l'utilisation des différentes options ou services proposés par le site.\n\n**Cookies analytiques :** Ils permettent de quantifier le nombre d'utilisateurs et de réaliser des analyses statistiques de l'utilisation du site. Ces informations nous aident à améliorer le fonctionnement du site.\n\n**Cookies de personnalisation :** Ils permettent de mémoriser des informations afin que l'utilisateur accède au service avec certaines caractéristiques pouvant différencier son expérience de celle d'autres utilisateurs (langue, préférences, etc.).\n\n**Cookies publicitaires :** Ils permettent de gérer efficacement les espaces publicitaires inclus dans notre site web, en adaptant le contenu des annonces au service demandé ou à l'utilisation que vous faites de notre site."
+        },
+        "s3": {
+          "title": "3. Cookies tiers",
+          "content": "Ce site web peut utiliser des services tiers qui déposent leurs propres cookies :\n\n- **Google Analytics :** pour l'analyse statistique du trafic web.\n- **Google Tag Manager :** pour la gestion des balises marketing.\n- **Réseaux sociaux :** si nous partageons des contenus sur les réseaux sociaux (Instagram, TikTok, etc.).\n\nCes cookies sont soumis aux politiques de confidentialité de chaque fournisseur externe."
+        },
+        "s4": {
+          "title": "4. Comment gérer les cookies",
+          "content": "Vous pouvez configurer votre navigateur pour accepter ou refuser les cookies. Si vous refusez les cookies, vous pourrez continuer à naviguer sur le site web, bien que l'utilisation de certains de ses services puisse être limitée.\n\nVous pouvez également gérer vos préférences en matière de cookies à tout moment en cliquant sur « Paramétrer les cookies » dans le pied de page de notre site web."
+        },
+        "s5": {
+          "title": "5. Mises à jour",
+          "content": "{legalName} peut modifier la présente Politique de Cookies en fonction d'exigences législatives ou réglementaires, ou dans le but de l'adapter aux instructions édictées par l'Agence Espagnole de Protection des Données."
+        }
+      }
+    },
+    "cancelaciones": {
+      "title": "Politique d'Annulation et de Remboursement",
+      "lastUpdated": "Dernière mise à jour : 19 janvier 2026",
+      "sections": {
+        "s1": {
+          "title": "1. Annulation de réservations",
+          "content": "Les réservations de services de spa et de soins peuvent être annulées ou modifiées sans frais supplémentaires avec un préavis minimum de **48 heures** avant la date et l'heure réservées.\n\n**Annulations avec un préavis inférieur à 48 heures :**\n- Annulation avec un préavis inférieur à 48 heures mais supérieur à 24 heures : **50 % du montant** du service réservé sera facturé.\n- Annulation avec un préavis inférieur à 24 heures ou absence sans prévenir : **100 % du montant** du service réservé sera facturé.\n\nPour annuler ou modifier une réservation, vous pouvez nous contacter :\n- Par téléphone : {phone}\n- Par e-mail : {email}\n- Par WhatsApp : +{whatsapp}"
+        },
+        "s2": {
+          "title": "2. Cartes cadeaux",
+          "content": "**Validité :** Les cartes cadeaux sont valables **12 mois** à compter de la date d'achat.\n\n**Remboursements :** Les cartes cadeaux ne sont pas remboursables une fois acquises. Elles sont toutefois **transférables**, ce qui signifie qu'elles peuvent être utilisées par une autre personne si l'acheteur initial ne peut en bénéficier.\n\n**Utilisation :** Pour utiliser une carte cadeau, celle-ci doit être présentée au moment de la réservation. Les cartes sont échangeables contre tout service de notre spa, dans la limite du montant de la carte. Si le service choisi est d'un montant inférieur, la différence n'est pas remboursée. Si le service est d'un montant supérieur, le complément sera à votre charge."
+        },
+        "s3": {
+          "title": "3. Remboursements",
+          "content": "En cas d'annulation avec un préavis supérieur à 48 heures, le remboursement de **100 % du montant** réglé sera effectué dans un délai maximum de **14 jours calendaires** à compter de la date d'annulation.\n\nLe remboursement sera effectué par le même moyen de paiement utilisé lors de l'achat initial.\n\n**Exceptions :** Aucun remboursement ne sera effectué dans les cas suivants :\n- Lorsque le client ne se présente pas au rendez-vous sans prévenir.\n- Lorsque le client annule avec un préavis inférieur à 24 heures.\n- Pour les cartes cadeaux (non remboursables, mais transférables)."
+        },
+        "s4": {
+          "title": "4. Modification de réservation",
+          "content": "Vous pouvez modifier la date ou l'heure de votre réservation sans frais supplémentaires, à condition de nous en informer avec un préavis minimum de **48 heures** et sous réserve de disponibilité au nouveau créneau souhaité.\n\nPour modifier votre réservation, contactez-nous par téléphone, e-mail ou WhatsApp."
+        },
+        "s5": {
+          "title": "5. Cas de force majeure",
+          "content": "En cas de force majeure empêchant la réalisation du service (conditions météorologiques extrêmes, urgences sanitaires, etc.), {brandName} prendra contact avec le client pour reprogrammer le service ou procéder au remboursement intégral du montant réglé."
+        },
+        "s6": {
+          "title": "6. Droit de rétractation",
+          "content": "Conformément à l'article 103 du Décret Royal Législatif 1/2007, du 16 novembre, approuvant le texte refondu de la Loi Générale pour la Défense des Consommateurs et Usagers, **le droit de rétractation ne s'applique pas à la fourniture de services de loisirs ou de détente lorsque le contrat prévoit une date ou une période d'exécution déterminée**.\n\nPar conséquent, une fois la réservation confirmée et la date et l'heure du service fixées, le droit de rétractation de 14 jours prévu pour les achats en ligne ne s'applique pas. Vous pouvez néanmoins annuler votre réservation selon les conditions indiquées au point 1 de la présente politique."
+        },
+        "s7": {
+          "title": "7. Contact",
+          "content": "Pour toute question relative aux annulations, modifications ou remboursements, vous pouvez nous contacter :\n\n**Téléphone :** {phone}\n**E-mail :** {email}\n**WhatsApp :** +{whatsapp}\n**Horaires d'ouverture :** {businessHours}"
+        }
+      }
+    }
+  },
+  "company": {
+    "description": "Spa privé à l'Hôtel TRH Mijas. Parcours exclusif, massages thérapeutiques et expériences wellness en couple.",
+    "businessHours": {
+      "weekdays": "Lundi à Vendredi : 9h00 - 21h00",
+      "saturday": "Samedi : 10h00 - 20h00",
+      "sunday": "Dimanche : 10h00 - 19h00"
+    },
+    "address": {
+      "country": "Espagne"
+    }
+  },
+  "structuredData": {
+    "businessDescription": "Spa privé de luxe à l'Hôtel TRH Mijas, Costa del Sol. Parcours exclusif avec jacuzzi, sauna et hammam. Massages thérapeutiques et expériences premium en couple."
+  }
+}

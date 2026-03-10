@@ -1,23 +1,27 @@
 import { COMPANY_DATA } from "../data/company";
+import { getTranslations } from "next-intl/server";
 
 /**
- * STRUCTURED DATA (SEO)
+ * STRUCTURED DATA (SEO) — i18n
  *
- * ✅ Ahora usa COMPANY_DATA centralizado
- * Los datos se actualizan automáticamente cuando editas company.ts
+ * Genera datos estructurados JSON-LD con descripciones localizadas.
+ * Los datos estructurales (precios, horarios) vienen de COMPANY_DATA.
+ * Las descripciones se traducen según el locale activo.
  */
 
-export default function StructuredData() {
+export default async function StructuredData() {
+  const t = await getTranslations("structuredData");
+
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
       // Local Business
       {
         "@type": "BeautySalon",
-        "@id": "https://spaserenity.com/#business", // ⚠️ Cambiar por tu dominio
+        "@id": "https://guindawellness.es/#business",
         name: COMPANY_DATA.brandName,
-        description: COMPANY_DATA.description,
-        url: "https://spaserenity.com", // ⚠️ Cambiar por tu dominio
+        description: t("businessDescription"),
+        url: "https://guindawellness.es",
         telephone: COMPANY_DATA.contact.phone.replace(/\s/g, ""),
         email: COMPANY_DATA.contact.email,
         address: {
@@ -29,8 +33,8 @@ export default function StructuredData() {
         },
         geo: {
           "@type": "GeoCoordinates",
-          latitude: "40.4168", // Cambiar por coordenadas reales
-          longitude: "-3.7038",
+          latitude: "36.5955",  // Mijas, Costa del Sol
+          longitude: "-4.6344",
         },
         openingHoursSpecification: [
           {
@@ -53,40 +57,37 @@ export default function StructuredData() {
           },
         ],
         priceRange: "€€€",
-        image: "https://spaserenity.com/images/og-image.jpg",
+        image: "https://guindawellness.es/images/og-image.jpg",
         sameAs: [
-          // Añadir tus redes sociales
-          // "https://www.facebook.com/spaserenity",
-          // "https://www.instagram.com/spaserenity",
+          "https://instagram.com/guindawellness",
+          "https://tiktok.com/@guindawellness",
         ],
       },
       // Service - Spa + Masaje (Producto Estrella)
       {
         "@type": "Service",
-        "@id": "https://spaserenity.com/#spa-masaje",
-        serviceType: "Circuito Spa + Masaje",
+        "@id": "https://guindawellness.es/#spa-masaje",
+        serviceType: "Private Spa Circuit + Massage",
         provider: {
-          "@id": "https://spaserenity.com/#business",
+          "@id": "https://guindawellness.es/#business",
         },
-        description:
-          "Circuito spa privado de 60 minutos (jacuzzi, sauna, baño turco) + masaje relajante de 30 minutos",
+        description: t("businessDescription"),
         offers: {
           "@type": "Offer",
           price: "105",
           priceCurrency: "EUR",
           availability: "https://schema.org/InStock",
-          url: "https://spaserenity.com/#spa-masaje",
+          url: "https://guindawellness.es/#spa-masaje",
         },
       },
       // Service - Circuito Spa
       {
         "@type": "Service",
-        "@id": "https://spaserenity.com/#circuito-spa",
-        serviceType: "Circuito Spa Privado",
+        "@id": "https://guindawellness.es/#circuito-spa",
+        serviceType: "Private Spa Circuit",
         provider: {
-          "@id": "https://spaserenity.com/#business",
+          "@id": "https://guindawellness.es/#business",
         },
-        description: "60 minutos en circuito privado: jacuzzi, sauna finlandesa y baño turco",
         offers: {
           "@type": "Offer",
           price: "75",
@@ -97,12 +98,11 @@ export default function StructuredData() {
       // Service - Pack Pareja
       {
         "@type": "Service",
-        "@id": "https://spaserenity.com/#pack-pareja",
-        serviceType: "Pack Pareja Premium",
+        "@id": "https://guindawellness.es/#pack-pareja",
+        serviceType: "Premium Couples Package",
         provider: {
-          "@id": "https://spaserenity.com/#business",
+          "@id": "https://guindawellness.es/#business",
         },
-        description: "Circuito spa privado + masajes relajantes simultáneos en sala privada para 2 personas",
         offers: {
           "@type": "Offer",
           price: "160",
@@ -110,27 +110,26 @@ export default function StructuredData() {
           availability: "https://schema.org/InStock",
         },
       },
-      // Aggregate Rating (cuando tengas reseñas reales)
+      // Aggregate Rating
       {
         "@type": "AggregateRating",
-        "@id": "https://spaserenity.com/#rating",
-        ratingValue: "5",
-        reviewCount: "3",
+        "@id": "https://guindawellness.es/#rating",
+        ratingValue: "4.9",
+        reviewCount: "268",
         bestRating: "5",
         worstRating: "1",
         itemReviewed: {
-          "@id": "https://spaserenity.com/#business",
+          "@id": "https://guindawellness.es/#business",
         },
       },
       // Website
       {
         "@type": "WebSite",
-        "@id": "https://spaserenity.com/#website",
-        url: "https://spaserenity.com",
-        name: "Guinda Wellnes & Spa",
-        description: "Circuito spa privado y masajes premium en Madrid",
+        "@id": "https://guindawellness.es/#website",
+        url: "https://guindawellness.es",
+        name: "Guinda Wellness & Spa",
         publisher: {
-          "@id": "https://spaserenity.com/#business",
+          "@id": "https://guindawellness.es/#business",
         },
       },
     ],

@@ -1,15 +1,14 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { HERO_DATA } from "../../data/hero";
 import { Button } from "../ui/Button";
 
 /**
- * HERO ESTRATÉGICO PREMIUM
+ * HERO ESTRATÉGICO PREMIUM — i18n
  *
- * Evolución del hero original:
- * - Headline con ubicación hotel (diferenciador inmediato)
- * - Subheadline sensorial que lista lo tangible
- * - CTA principal + CTA secundario "Experiencia en Pareja" (ticket alto)
- * - Trust badges: Hotel · Rating · Privacidad
- * - Imagen placeholder preparada
+ * Todos los textos vienen de traducciones.
+ * Datos estructurales (imagen, hrefs, variants) vienen de HERO_DATA.
  */
 
 function TrustIcon({ icon }: { icon: string }) {
@@ -37,12 +36,20 @@ function TrustIcon({ icon }: { icon: string }) {
   }
 }
 
+const TRUST_ITEMS = [
+  { key: "hotel", icon: "hotel" },
+  { key: "rating", icon: "star" },
+  { key: "private", icon: "lock" },
+] as const;
+
 export function Hero() {
+  const t = useTranslations("hero");
+  const tCommon = useTranslations("common");
+
   return (
     <section id="inicio" className="relative min-h-[100svh] flex items-center justify-center pt-20">
       {/* Background Image with premium overlay */}
       <div className="absolute inset-0 z-0">
-        {/* Placeholder: reemplazar con /images/hero/hero-spa-private.jpg */}
         <div
           className="w-full h-full bg-cover bg-center"
           style={{
@@ -50,7 +57,7 @@ export function Hero() {
             filter: "brightness(0.55)",
           }}
           role="img"
-          aria-label={HERO_DATA.imagen.alt}
+          aria-label={t("imageAlt")}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
       </div>
@@ -62,34 +69,45 @@ export function Hero() {
           <div className="animate-fade-in inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25">
             <div className="w-1.5 h-1.5 rounded-full bg-(--color-gold)" />
             <span className="text-[11px] tracking-[0.2em] uppercase text-white/95 font-medium">
-              {HERO_DATA.eyebrow}
+              {t("eyebrow")}
             </span>
           </div>
 
           {/* Headline */}
           <h1 className="animate-fade-in-up text-[2.5rem] md:text-6xl lg:text-7xl font-playfair font-semibold text-white leading-[1.1] whitespace-pre-line">
-            {HERO_DATA.titulo}
+            {t("title")}
           </h1>
 
           {/* Subheadline */}
           <p className="animate-fade-in-up animate-delay-100 text-base md:text-lg text-white/90 font-light max-w-xl mx-auto leading-relaxed">
-            {HERO_DATA.descripcion}
+            {t("description")}
           </p>
 
           {/* CTAs */}
           <div className="animate-fade-in-up animate-delay-200 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2">
-            {HERO_DATA.ctas.map((cta) => (
-              <Button key={cta.label} {...cta} fullWidth={true} className="sm:w-auto" />
-            ))}
+            <Button
+              label={t("cta.primary")}
+              href="#reservar"
+              variant="primary"
+              fullWidth={true}
+              className="sm:w-auto"
+            />
+            <Button
+              label={t("cta.secondary")}
+              href="#experiencias"
+              variant="glass"
+              fullWidth={true}
+              className="sm:w-auto"
+            />
           </div>
 
           {/* Trust badges */}
           <div className="animate-fade-in-up animate-delay-300 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 pt-6">
-            {HERO_DATA.trust.map((item, index) => (
-              <div key={item.label} className="flex items-center gap-2 text-white/70">
+            {TRUST_ITEMS.map((item, index) => (
+              <div key={item.key} className="flex items-center gap-2 text-white/70">
                 <TrustIcon icon={item.icon} />
-                <span className="text-xs tracking-wide font-medium">{item.label}</span>
-                {index < HERO_DATA.trust.length - 1 && (
+                <span className="text-xs tracking-wide font-medium">{t(`trust.${item.key}`)}</span>
+                {index < TRUST_ITEMS.length - 1 && (
                   <span className="hidden sm:inline text-white/30 ml-4">|</span>
                 )}
               </div>
@@ -101,7 +119,9 @@ export function Hero() {
       {/* Scroll Indicator — premium minimal */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
         <div className="flex flex-col items-center gap-2 animate-bounce">
-          <span className="text-[10px] tracking-[0.15em] uppercase text-white/50 font-medium">Descubre</span>
+          <span className="text-[10px] tracking-[0.15em] uppercase text-white/50 font-medium">
+            {tCommon("labels.discover")}
+          </span>
           <svg className="w-4 h-4 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
           </svg>

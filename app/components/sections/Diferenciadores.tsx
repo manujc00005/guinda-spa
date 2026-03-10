@@ -1,56 +1,13 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { DIFERENCIADORES_DATA } from "../../data/diferenciadores";
 
 /**
- * DIFERENCIADORES — LAYOUT EDITORIAL SPLIT
+ * DIFERENCIADORES — LAYOUT EDITORIAL SPLIT — i18n
  *
- * ────────────────────────────────────────────────
- *  PROBLEMA ANTERIOR:
- *  - Grid 2x2 de iconos + texto corto = patrón SaaS/feature list
- *  - Visualmente plano, no evoca sensación de espacio
- *  - Copy funcional ("Sin compartir. Sin prisas.") no activa sentidos
- *  - Sin imagen = el usuario no puede visualizar el espacio
- *
- *  SOLUCIÓN:
- *  Layout editorial split inspirado en revistas de hospitality:
- *
- *  Desktop:
- *  ┌─────────────┬──────────────────────────┐
- *  │             │  Eyebrow                 │
- *  │   IMAGEN    │  Headline (Playfair)     │
- *  │   del spa   │  Intro sensorial         │
- *  │   (sticky)  │                          │
- *  │             │  ── ornamento ──         │
- *  │             │                          │
- *  │             │  ✦ Diferenciador 1       │
- *  │             │  ✦ Diferenciador 2       │
- *  │             │  ✦ Diferenciador 3       │
- *  │             │  ✦ Diferenciador 4       │
- *  │             │                          │
- *  │             │  Frase de cierre         │
- *  └─────────────┴──────────────────────────┘
- *
- *  Mobile:
- *  ┌────────────────────────────────┐
- *  │  Eyebrow + Headline           │
- *  │  Intro                        │
- *  │  ── ornamento ──              │
- *  │  Diferenciador 1              │
- *  │  Diferenciador 2              │
- *  │  Diferenciador 3              │
- *  │  Diferenciador 4              │
- *  │  Frase de cierre              │
- *  │  [IMAGEN debajo, full-width]  │
- *  └────────────────────────────────┘
- *
- *  POR QUÉ FUNCIONA:
- *  - La imagen a la izquierda muestra el espacio VACÍO del spa
- *    → El usuario se proyecta en él ("esto me espera")
- *  - El copy a la derecha va de general a específico
- *    → Primero siente, luego confirma con detalles
- *  - La frase de cierre prepara psicológicamente para el CTA
- *    → "Tu única decisión es cuándo venir" = baja resistencia
- *  - Ornamento dorado = continuidad visual con el resto de la marca
- * ────────────────────────────────────────────────
+ * Textos vienen de traducciones, datos estructurales (imágenes, iconos)
+ * vienen del data file.
  */
 
 /* ─── Iconos SVG premium (stroke fino, elegante) ─── */
@@ -86,8 +43,11 @@ function DifIcon({ icon }: { icon: string }) {
   }
 }
 
+const DIF_KEYS = ["privacidad", "bienvenida", "hotel", "desconexion"] as const;
+
 export function Diferenciadores() {
-  const { header, intro, items, cierre, imagen } = DIFERENCIADORES_DATA;
+  const t = useTranslations("diferenciadores");
+  const { items, imagen } = DIFERENCIADORES_DATA;
 
   return (
     <section className="py-20 md:py-28 bg-(--color-ivory) overflow-hidden">
@@ -95,25 +55,20 @@ export function Diferenciadores() {
         <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-start">
 
           {/* ─── COLUMNA IZQUIERDA: Imagen del espacio ─── */}
-          {/* Mobile: se muestra DEBAJO del copy (order-2)  */}
-          {/* Desktop: sticky a la izquierda mientras el copy scrollea */}
           <div className="order-2 md:order-1 md:col-span-5 md:sticky md:top-28">
             <div className="relative rounded-2xl overflow-hidden aspect-[3/4] md:aspect-[4/5]">
               <img
                 src={imagen.src}
-                alt={imagen.alt}
+                alt={t("imageAlt")}
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-              {/* Overlay sutil cálido — no oscurece, tinta ligeramente */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-black/5" />
-
-              {/* Badge flotante inferior — micro detalle de lujo */}
               <div className="absolute bottom-5 left-5 right-5">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm shadow-sm">
                   <div className="w-1.5 h-1.5 rounded-full bg-(--color-gold)" />
                   <span className="text-[11px] tracking-[0.12em] uppercase font-medium text-(--color-text-primary)">
-                    Hotel TRH Mijas · Costa del Sol
+                    {t("badge")}
                   </span>
                 </div>
               </div>
@@ -122,58 +77,48 @@ export function Diferenciadores() {
 
           {/* ─── COLUMNA DERECHA: Copy editorial ─── */}
           <div className="order-1 md:order-2 md:col-span-7">
-
-            {/* Eyebrow */}
             <span className="inline-block text-xs tracking-[0.2em] uppercase text-(--color-primary) mb-4 font-medium">
-              {header.eyebrow}
+              {t("header.eyebrow")}
             </span>
-
-            {/* Headline — Playfair, emocional, whitespace-pre-line para el salto */}
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-semibold text-(--color-text-primary) leading-[1.15] mb-6 whitespace-pre-line">
-              {header.titulo}
+              {t("header.title")}
             </h2>
-
-            {/* Intro sensorial */}
             <p className="text-base md:text-lg text-(--color-text-secondary) leading-relaxed mb-10 max-w-lg">
-              {intro}
+              {t("intro")}
             </p>
 
-            {/* Ornamento dorado — pausa visual antes de los items */}
+            {/* Ornamento dorado */}
             <div className="flex items-center gap-3 mb-10">
               <div className="h-px w-10 bg-(--color-gold)/40" />
               <span className="text-(--color-gold)/50 text-xs">✦</span>
               <div className="h-px w-10 bg-(--color-gold)/40" />
             </div>
 
-            {/* Lista de diferenciadores — formato editorial */}
+            {/* Lista de diferenciadores */}
             <div className="space-y-8 md:space-y-10">
-              {items.map((item) => (
-                <div key={item.titulo} className="flex gap-4 md:gap-5">
-                  {/* Icono — círculo mínimo, elegante */}
+              {items.map((item, idx) => (
+                <div key={item.icono} className="flex gap-4 md:gap-5">
                   <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white flex items-center justify-center text-(--color-primary) shadow-sm border border-(--color-border-light) mt-0.5">
                     <DifIcon icon={item.icono} />
                   </div>
-
-                  {/* Texto */}
                   <div className="flex-1 min-w-0">
                     <h3 className="text-base md:text-lg font-semibold text-(--color-text-primary) mb-1.5 leading-snug">
-                      {item.titulo}
+                      {t(`items.${DIF_KEYS[idx]}.title`)}
                     </h3>
                     <p className="text-sm md:text-[0.9375rem] text-(--color-text-secondary) leading-relaxed">
-                      {item.descripcion}
+                      {t(`items.${DIF_KEYS[idx]}.description`)}
                     </p>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Frase de cierre — itálica, Playfair, prepara el CTA */}
+            {/* Frase de cierre */}
             <div className="mt-12 pt-8 border-t border-(--color-border-light)">
               <p className="text-base md:text-lg font-playfair italic text-(--color-text-secondary) leading-relaxed max-w-md">
-                &ldquo;{cierre}&rdquo;
+                &ldquo;{t("cierre")}&rdquo;
               </p>
             </div>
-
           </div>
         </div>
       </div>

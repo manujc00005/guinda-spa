@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 // ============================================================================
@@ -660,6 +661,183 @@ model MoneiEvent {
 }
 
 // ============================================================================
+// ADMIN USERS
+// ============================================================================
+
+enum AdminRole {
+  ADMIN // Full access: CRUD + publish + user management
+  EDITOR // CRUD + publish, no user management
+  VIEWER // Read-only access to admin panel
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  role         AdminRole @default(EDITOR)
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+
+  publishedVersions MenuVersion[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([isActive])
+}
+
+// ============================================================================
+// MENU SYSTEM (Presentational - Price Menu / Carta de Precios)
+// ============================================================================
+
+enum MenuVersionStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum MenuNoteParentType {
+  SECTION
+  ITEM
+}
+
+enum MenuSectionType {
+  STANDARD // Normal section with items+variants (e.g., Masajes Terapeuticos)
+  PACKAGES // Packs Exclusivos - items are combined services
+  COUPLES // Wellness en Pareja - special pricing layout
+  SINGLE_SERVICE // Circuito Spa - one item, fixed price, notes
+  INFO // Bonos Personalizados - informational, no price table
+  SUBSECTION // Tratamientos a Medida (has sub-groups)
+}
+
+model MenuSection {
+  id           String          @id @default(cuid())
+  slug         String          @unique
+  name         Json // LocalizedText: {"es": "...", "en": "...", "fr": "..."}
+  description  Json? // LocalizedText
+  subtitle     Json? // LocalizedText - e.g., "HOLÍSTICOS"
+  displayOrder Int             @default(0)
+  isActive     Boolean         @default(true)
+  type         MenuSectionType @default(STANDARD)
+  icon         String? // Icon identifier
+
+  // Self-reference for subsections (e.g., Faciales under Tratamientos a Medida)
+  parentId String?
+  parent   MenuSection?  @relation("SectionChildren", fields: [parentId], references: [id], onDelete: SetNull)
+  children MenuSection[] @relation("SectionChildren")
+
+  items MenuItem[]
+  notes MenuNote[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? // Soft delete
+
+  @@index([slug])
+  @@index([isActive, displayOrder])
+  @@index([parentId])
+}
+
+model MenuItem {
+  id        String      @id @default(cuid())
+  sectionId String
+  section   MenuSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  slug             String
+  name             Json // LocalizedText
+  description      Json? // LocalizedText
+  shortDescription Json? // LocalizedText
+  displayOrder     Int     @default(0)
+  isActive         Boolean @default(true)
+
+  tags         Json? // string[] for labels like "FAVORITOS"
+  savingsLabel Json? // LocalizedText e.g., "AHORRA 35€"
+  totalDuration String? // e.g., "90 min"
+
+  // Future: link to operational service for booking
+  operationalServiceId String?
+  operationalPackageId String?
+
+  variants MenuItemVariant[]
+  notes    MenuNote[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? // Soft delete
+
+  @@unique([sectionId, slug])
+  @@index([sectionId])
+  @@index([isActive, displayOrder])
+}
+
+model MenuItemVariant {
+  id           String       @id @default(cuid())
+  itemId       String
+  item         MenuItem     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  label        Json // LocalizedText: "30 min", "Cuello y espalda"
+  duration     Int? // Duration in minutes
+  durationUnit DurationUnit @default(MINUTES)
+  price        Decimal      @db.Decimal(10, 2)
+  notes        Json? // LocalizedText - e.g., "Pareja" suffix
+  displayOrder Int          @default(0)
+  isActive     Boolean      @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([itemId])
+  @@index([isActive, displayOrder])
+}
+
+model MenuNote {
+  id         String             @id @default(cuid())
+  parentType MenuNoteParentType
+
+  sectionId String?
+  section   MenuSection? @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  itemId String?
+  item   MenuItem? @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  content      Json // LocalizedText
+  displayOrder Int    @default(0)
+  style        String @default("info") // "info", "highlight", "asterisk"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sectionId])
+  @@index([itemId])
+}
+
+model MenuVersion {
+  id        String            @id @default(cuid())
+  version   Int // Auto-incrementing version number
+  status    MenuVersionStatus @default(DRAFT)
+  data      Json // Full serialized MenuSnapshot
+  changelog String?           @db.Text
+
+  publishedAt DateTime?
+  publishedBy String?
+  publisher   AdminUser? @relation(fields: [publishedBy], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([status])
+  @@index([version])
+  @@index([publishedAt])
+}
+
+model MenuSettings {
+  id                        String @id @default("singleton")
+  currentPublishedVersionId String?
+
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================================================
 // BOOKINGS / APPOINTMENTS (RESERVAS)
 // ============================================================================
 
@@ -718,4 +896,26 @@ model Booking {
   @@index([orderId])
   @@index([bookingDate])
   @@index([status])
+}
+
+// ============================================================================
+// OFERTAS — Packs & bonos gestionables desde admin
+// ============================================================================
+
+model Oferta {
+  id          String  @id @default(cuid())
+  titulo      String
+  descripcion String  @db.Text
+  precio      String  // "240€", "desde 50€"
+  detalle     String? // "4 horas aprox.", "2 personas · 90 min"
+  ctaLabel    String  @default("Reservar")
+  ctaHref     String  @default("#reservar")
+  destacado   Boolean @default(false)
+  activo      Boolean @default(true)
+  orden       Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([activo, orden])
 }

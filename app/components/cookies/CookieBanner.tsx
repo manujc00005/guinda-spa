@@ -1,29 +1,23 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "../../../i18n/routing";
 import { useCookieConsent, CookiePreferences } from "../../hooks/useCookieConsent";
 import { CookieConfigModal } from "./CookieConfigModal";
 
 /**
- * BANNER DE COOKIES CON CONFIGURACIÓN AVANZADA
- *
- * ✅ Sistema completo de gestión de cookies compatible con RGPD
- * ✅ Modal de configuración granular por categorías
- * ✅ Integración con Google Analytics (opcional)
- * ✅ Persistencia en localStorage
- *
- * Para empresas con requisitos estrictos de cumplimiento legal,
- * considera usar una librería certificada como Cookiebot o OneTrust.
+ * BANNER DE COOKIES CON CONFIGURACIÓN AVANZADA — i18n
  */
 
 export function CookieBanner() {
   const [showBanner, setShowBanner] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { consent, preferences, acceptAll, rejectAll, savePreferences } = useCookieConsent();
+  const t = useTranslations("cookies.banner");
+  const tCommon = useTranslations("common");
 
   useEffect(() => {
-    // Verificar si ya hay consentimiento guardado
     if (!consent) {
       setShowBanner(true);
     }
@@ -59,13 +53,12 @@ export function CookieBanner() {
             {/* Texto */}
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-(--color-text-primary) mb-2">
-                🍪 Utilizamos cookies
+                {t("title")}
               </h3>
               <p className="text-sm text-(--color-text-secondary) leading-relaxed">
-                Utilizamos cookies propias y de terceros para mejorar nuestros servicios y mostrarle publicidad
-                relacionada con sus preferencias mediante el análisis de sus hábitos de navegación.{" "}
+                {t("description")}{" "}
                 <Link href="/cookies" className="text-(--color-primary) hover:underline font-medium">
-                  Más información
+                  {tCommon("labels.moreInfo")}
                 </Link>
               </p>
             </div>
@@ -76,19 +69,19 @@ export function CookieBanner() {
                 onClick={handleReject}
                 className="btn-outline px-6 py-3 text-sm whitespace-nowrap"
               >
-                Rechazar
+                {t("reject")}
               </button>
               <button
                 onClick={handleConfigure}
                 className="btn-outline px-6 py-3 text-sm whitespace-nowrap"
               >
-                Configurar
+                {t("configure")}
               </button>
               <button
                 onClick={handleAccept}
                 className="btn-primary px-6 py-3 text-sm whitespace-nowrap"
               >
-                Aceptar todas
+                {t("acceptAll")}
               </button>
             </div>
           </div>

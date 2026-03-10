@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { seedMenuData } from '../lib/menu/seed-menu'
 
 const prisma = new PrismaClient()
 
@@ -1326,6 +1327,12 @@ async function main() {
 
   console.log('✅ Example booking created')
 
+  // ============================================================================
+  // 17. MENU ADMIN (carta de precios + admin user + v1 publicada)
+  // ============================================================================
+
+  await seedMenuData(prisma)
+
   console.log('🎉 Seed completed successfully!')
   console.log('\nCreated:')
   console.log('- 11 categories')
@@ -1336,6 +1343,8 @@ async function main() {
   console.log('- 1 example customer')
   console.log('- 1 example order with voucher')
   console.log('- 1 example booking')
+  console.log('- Menu: 9 sections, items, variants, notes')
+  console.log('- Menu: admin user + published version v1')
 }
 
 main()

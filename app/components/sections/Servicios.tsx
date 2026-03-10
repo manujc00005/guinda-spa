@@ -1,223 +1,291 @@
-"use client";
-
-import { useState } from "react";
-import { SERVICIOS_DATA } from "../../data/servicios";
-import type { CategoriaServicio, ServicioItem } from "../../data/servicios";
+import { getTranslations, getLocale } from "next-intl/server";
+import { prisma } from "@/lib/prisma";
 import { SectionShell } from "../ui/SectionShell";
 import { SectionHeader } from "../ui/SectionHeader";
+import {
+  ServiciosTabs,
+  type TabCategory,
+  type SSection,
+  type SItem,
+  type SVariant,
+  type SNote,
+} from "./ServiciosTabs";
 
 /**
- * RITUALES & EXPERIENCIAS — LUXURY LAYOUT
+ * RITUALES & EXPERIENCIAS — Server Component
  *
- * - Tabs por categoría con iconos
- * - Tarjetas premium con micro-elementos incluidos
- * - Signature treatment con acento gold
- * - Valor añadido como trust strip
- * - CTA emocional con subtexto
+ * - Obtiene los datos de la carta directamente desde Prisma.
+ * - Excluye secciones de tipo PACKAGES.
+ * - Expande SUBSECTION en sus hijos.
+ * - Organiza las secciones en 5 categorías para el tab navigation.
+ * - Pasa los datos serializados (sin Prisma Decimal) al Client Component.
  */
 
-function CategoriaIcon({ icono }: { icono: string }) {
-  const cls = "w-5 h-5";
-  switch (icono) {
-    case "hands":
-      return (
-        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M10.05 4.575a1.575 1.575 0 10-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 013.15 0v1.5m-3.15 0l.075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 013.15 0V15M6.9 7.575a1.575 1.575 0 10-3.15 0v8.175a6.75 6.75 0 006.75 6.75h2.018a5.25 5.25 0 003.712-1.538l1.732-1.732a5.25 5.25 0 001.538-3.712l.003-2.024a.668.668 0 01.198-.471 1.575 1.575 0 10-2.228-2.228 3.818 3.818 0 00-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0116.35 15m.002 0h.264a2.25 2.25 0 002.25-2.25V10.5" />
-        </svg>
-      );
-    case "face":
-      return (
-        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
-        </svg>
-      );
-    case "ritual":
-      return (
-        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
-        </svg>
-      );
-    default:
-      return null;
-  }
+// ─── Helpers de serialización ─────────────────────────────────────────────────
+
+/** Extrae el texto en español de un campo JSON { es, en, fr } */
+const tr = (v: unknown): string => {
+  if (!v || typeof v !== "object" || Array.isArray(v)) return "";
+  return (v as Record<string, string>).es ?? "";
+};
+
+// ─── Types de la query Prisma ─────────────────────────────────────────────────
+
+interface PVariant {
+  id: string;
+  label: unknown;
+  duration: number | null;
+  price: unknown;
+  notes: unknown | null;
 }
 
-function IncludeIcon() {
-  return (
-    <svg className="w-3.5 h-3.5 text-(--color-gold) flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-    </svg>
+interface PNote {
+  id: string;
+  content: unknown;
+  style: string;
+}
+
+interface PItem {
+  id: string;
+  name: unknown;
+  description: unknown | null;
+  shortDescription: unknown | null;
+  variants: PVariant[];
+  notes: PNote[];
+}
+
+interface PSection {
+  id: string;
+  slug: string;
+  name: unknown;
+  subtitle: unknown | null;
+  description: unknown | null;
+  type: string;
+  items: PItem[];
+  notes: PNote[];
+  children?: PSection[];
+}
+
+// ─── Slug → clave i18n ────────────────────────────────────────────────────────
+
+const SLUG_KEY: Record<string, string> = {
+  "circuito-spa-privado": "circuitoSpa",
+  "masajes-terapeuticos": "masajesTerapeuticos",
+  "masajes-del-mundo": "masajesMundo",
+  "exfoliaciones-envolturas": "exfoliaciones",
+  faciales: "faciales",
+  corporales: "corporales",
+  "manos-y-pies": "manosPies",
+  peluqueria: "peluqueria",
+  "wellness-en-pareja": "wellnessPareja",
+  "bonos-personalizados": "bonos",
+};
+
+/** Overrides de nombre para las secciones hijo del SUBSECTION */
+const NAME_OVERRIDE: Record<string, { name?: string; subtitle?: string }> = {
+  faciales: { name: "Tratamientos Faciales", subtitle: "Personalizados" },
+  corporales: { name: "Tratamientos Corporales", subtitle: "Personalizados" },
+};
+
+// ─── Definición de categorías de tabs ─────────────────────────────────────────
+
+const CATEGORY_DEFINITIONS: Array<{
+  key: string;
+  icon: string;
+  tabKey: string; // clave i18n para label/short
+  slugs: string[];
+}> = [
+  {
+    key: "corporales",
+    icon: "body",
+    tabKey: "corporales",
+    slugs: [
+      "masajes-terapeuticos",
+      "masajes-del-mundo",
+      "exfoliaciones-envolturas",
+      "corporales",
+    ],
+  },
+  {
+    key: "faciales",
+    icon: "face",
+    tabKey: "faciales",
+    slugs: ["faciales"],
+  },
+  {
+    key: "spa",
+    icon: "spa",
+    tabKey: "spa",
+    slugs: ["circuito-spa-privado", "bonos-personalizados"],
+  },
+  {
+    key: "pareja",
+    icon: "couple",
+    tabKey: "pareja",
+    slugs: ["wellness-en-pareja"],
+  },
+  {
+    key: "belleza",
+    icon: "beauty",
+    tabKey: "belleza",
+    slugs: ["manos-y-pies", "peluqueria"],
+  },
+];
+
+// ─── Serialización Prisma → plain objects ─────────────────────────────────────
+
+function serializeNote(n: PNote): SNote {
+  return {
+    id: n.id,
+    content: tr(n.content),
+    style: n.style,
+  };
+}
+
+function serializeVariant(v: PVariant): SVariant {
+  return {
+    id: v.id,
+    label: tr(v.label),
+    duration: v.duration,
+    price: Number(v.price),
+    notes: tr(v.notes),
+  };
+}
+
+function serializeItem(item: PItem): SItem {
+  return {
+    id: item.id,
+    name: tr(item.name),
+    description: tr(item.description),
+    shortDescription: tr(item.shortDescription),
+    variants: item.variants.map(serializeVariant),
+    notes: item.notes.map(serializeNote),
+  };
+}
+
+function serializeSection(s: PSection, intro: string): SSection {
+  const override = NAME_OVERRIDE[s.slug];
+  return {
+    id: s.id,
+    slug: s.slug,
+    name: override?.name ?? tr(s.name),
+    subtitle: override?.subtitle ?? tr(s.subtitle),
+    type: s.type,
+    intro,
+    items: s.items.map(serializeItem),
+    notes: s.notes.map(serializeNote),
+  };
+}
+
+// Forzar renderizado dinámico — siempre datos frescos, nunca cacheado
+export const dynamic = "force-dynamic";
+
+// ─── Servicios — componente principal ─────────────────────────────────────────
+
+export async function Servicios() {
+  const [t, tCommon, locale] = await Promise.all([
+    getTranslations("servicios"),
+    getTranslations("common"),
+    getLocale(),
+  ]);
+
+  // 1. Fetch desde la DB — siempre datos frescos (force-dynamic)
+  const rawSections = await prisma.menuSection.findMany({
+    where: {
+      parentId: null,
+      isActive: true,
+      deletedAt: null,
+      NOT: { type: "PACKAGES" },
+    },
+    orderBy: { displayOrder: "asc" },
+    include: {
+      items: {
+        where: { isActive: true, deletedAt: null },
+        orderBy: { displayOrder: "asc" },
+        include: {
+          variants: {
+            where: { isActive: true },
+            orderBy: { displayOrder: "asc" },
+          },
+          notes: { orderBy: { displayOrder: "asc" } },
+        },
+      },
+      notes: { orderBy: { displayOrder: "asc" } },
+      children: {
+        where: { isActive: true, deletedAt: null },
+        orderBy: { displayOrder: "asc" },
+        include: {
+          items: {
+            where: { isActive: true, deletedAt: null },
+            orderBy: { displayOrder: "asc" },
+            include: {
+              variants: {
+                where: { isActive: true },
+                orderBy: { displayOrder: "asc" },
+              },
+              notes: { orderBy: { displayOrder: "asc" } },
+            },
+          },
+          notes: { orderBy: { displayOrder: "asc" } },
+        },
+      },
+    },
+  });
+
+  // 2. Expande SUBSECTION en sus hijos (Faciales, Corporales, Manos & Pies)
+  const flatSections = (rawSections as unknown as PSection[]).flatMap((s) =>
+    s.type === "SUBSECTION" ? (s.children ?? []) : [s]
   );
-}
 
-function SignatureBadge() {
-  return (
-    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-[0.15em] uppercase font-medium bg-gradient-to-r from-(--color-gold-light)/20 to-(--color-gold)/20 text-(--color-gold) border border-(--color-gold)/30">
-      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-      </svg>
-      Signature
-    </span>
+  if (flatSections.length === 0) return null;
+
+  // 3. Mapeo por slug para búsqueda rápida
+  const sectionBySlug = new Map(flatSections.map((s) => [s.slug, s]));
+
+  // 4. Construcción de categorías
+  const categories: TabCategory[] = CATEGORY_DEFINITIONS.map((def) => {
+    const sections: SSection[] = def.slugs
+      .map((slug) => {
+        const raw = sectionBySlug.get(slug);
+        if (!raw) return null;
+        const i18nKey = SLUG_KEY[slug] ?? "";
+        const intro = i18nKey ? t(`secciones.${i18nKey}.intro`) : "";
+        return serializeSection(raw, intro);
+      })
+      .filter((s): s is SSection => s !== null);
+
+    return {
+      key: def.key,
+      label: t(`tabs.${def.tabKey}.label`),
+      labelShort: t(`tabs.${def.tabKey}.short`),
+      icon: def.icon,
+      sections,
+    };
+  }).filter((cat) => cat.sections.length > 0);
+
+  if (categories.length === 0) return null;
+
+  // 5. Added values
+  const addedValues = (["0", "1", "2", "3"] as const).map((i) =>
+    t(`addedValue.${i}`)
   );
-}
-
-function ServicioCard({ servicio }: { servicio: ServicioItem }) {
-  const isSignature = servicio.esSignature;
-
-  return (
-    <div
-      className={[
-        "group relative p-6 md:p-8 rounded-2xl border transition-all duration-400",
-        isSignature
-          ? "bg-gradient-to-br from-white via-white to-(--color-gold)/5 border-(--color-gold)/30 shadow-[0_4px_24px_rgba(200,162,126,0.12)] hover:shadow-[0_8px_40px_rgba(200,162,126,0.2)]"
-          : "bg-white border-(--color-border-light) hover:border-(--color-primary)/20 hover:shadow-sm",
-      ].join(" ")}
-    >
-      {/* Header: título + duración + precio */}
-      <div className="flex flex-col md:flex-row md:items-start justify-between gap-3 mb-4">
-        <div className="flex-1 min-w-0">
-          <div className="flex flex-wrap items-center gap-2.5 mb-1">
-            {isSignature && <SignatureBadge />}
-            <h4 className="text-lg md:text-xl font-playfair font-semibold text-(--color-text-primary)">
-              {servicio.titulo}
-            </h4>
-          </div>
-          {servicio.subtitulo && (
-            <p className="text-xs tracking-[0.12em] uppercase text-(--color-text-muted) font-medium mt-1">
-              {servicio.subtitulo}
-            </p>
-          )}
-        </div>
-        <div className="flex items-center gap-4 flex-shrink-0">
-          <span className="text-xs text-(--color-text-muted) font-medium whitespace-nowrap">
-            {servicio.duracion}
-          </span>
-          <span className={[
-            "text-lg md:text-xl font-playfair font-semibold whitespace-nowrap",
-            isSignature ? "text-(--color-gold)" : "text-(--color-primary)",
-          ].join(" ")}>
-            {servicio.precio}
-          </span>
-        </div>
-      </div>
-
-      {/* Descripción sensorial */}
-      <p className="text-sm text-(--color-text-secondary) leading-relaxed mb-5">
-        {servicio.descripcion}
-      </p>
-
-      {/* Micro-elementos incluidos */}
-      {servicio.incluye && servicio.incluye.length > 0 && (
-        <div className={[
-          "pt-4 border-t",
-          isSignature ? "border-(--color-gold)/15" : "border-(--color-border-light)",
-        ].join(" ")}>
-          <p className="text-[11px] tracking-[0.15em] uppercase text-(--color-text-muted) font-medium mb-3">
-            Tu ritual incluye
-          </p>
-          <ul className={[
-            "gap-2 text-sm text-(--color-text-secondary)",
-            isSignature ? "grid grid-cols-1 sm:grid-cols-2" : "flex flex-col",
-          ].join(" ")}>
-            {servicio.incluye.map((item, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <IncludeIcon />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function OrnamentDivider() {
-  return (
-    <div className="flex items-center justify-center gap-3 my-2">
-      <div className="h-px w-8 bg-(--color-gold)/30" />
-      <div className="w-1.5 h-1.5 rounded-full bg-(--color-gold)/40" />
-      <div className="h-px w-8 bg-(--color-gold)/30" />
-    </div>
-  );
-}
-
-export function Servicios() {
-  const [activeTab, setActiveTab] = useState(0);
-  const categorias = SERVICIOS_DATA.categorias;
-  const active: CategoriaServicio = categorias[activeTab];
 
   return (
     <SectionShell id="servicios" bg="white">
-      <SectionHeader {...SERVICIOS_DATA.header} />
+      <SectionHeader
+        eyebrow={t("header.eyebrow")}
+        titulo={t("header.title")}
+        descripcion={t("header.description")}
+      />
 
-      {/* Tabs de categorías */}
-      <div className="flex justify-center mb-12 md:mb-16">
-        <div className="inline-flex gap-2 p-1.5 rounded-full bg-(--color-ivory) border border-(--color-border-light)">
-          {categorias.map((cat, i) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveTab(i)}
-              className={[
-                "flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300",
-                i === activeTab
-                  ? "bg-white text-(--color-text-primary) shadow-sm"
-                  : "text-(--color-text-secondary) hover:text-(--color-text-primary)",
-              ].join(" ")}
-            >
-              <CategoriaIcon icono={cat.icono} />
-              <span className="hidden sm:inline">{cat.titulo}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Contenido de la categoría activa */}
-      <div className="max-w-3xl mx-auto">
-        {/* Descripción de categoría */}
-        <div className="text-center mb-10 md:mb-12">
-          <p className="text-(--color-text-secondary) text-base leading-relaxed max-w-2xl mx-auto">
-            {active.descripcion}
-          </p>
-        </div>
-
-        <OrnamentDivider />
-
-        {/* Lista de rituales */}
-        <div className="space-y-5 mt-8">
-          {active.servicios.map((servicio, idx) => (
-            <ServicioCard key={`${active.id}-${idx}`} servicio={servicio} />
-          ))}
-        </div>
-
-        {/* Valor añadido — trust strip */}
-        <div className="mt-12 p-6 rounded-2xl bg-(--color-ivory)/60 border border-(--color-border-light)">
-          <p className="text-[11px] tracking-[0.15em] uppercase text-(--color-text-muted) font-medium mb-4 text-center">
-            En cada visita
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {SERVICIOS_DATA.valorAnadido.map((item, i) => (
-              <div key={i} className="flex items-start gap-2.5 text-sm text-(--color-text-secondary)">
-                <div className="w-1 h-1 rounded-full bg-(--color-gold) flex-shrink-0 mt-2" />
-                <span>{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* CTA emocional */}
-        <div className="text-center mt-14">
-          <a
-            href={SERVICIOS_DATA.cta.href}
-            className="btn-primary text-sm px-10 py-4"
-          >
-            {SERVICIOS_DATA.cta.texto}
-          </a>
-          <p className="text-sm text-(--color-text-muted) mt-4 font-light italic">
-            {SERVICIOS_DATA.cta.subtexto}
-          </p>
-        </div>
-      </div>
+      <ServiciosTabs
+        categories={categories}
+        locale={locale}
+        addedValues={addedValues}
+        ctaText={t("cta.text")}
+        ctaSubtext={t("cta.subtext")}
+        everyVisitLabel={tCommon("labels.everyVisit")}
+      />
     </SectionShell>
   );
 }
